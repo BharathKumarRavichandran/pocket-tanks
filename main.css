@@ -1,0 +1,19 @@
+html{
+	background: black;
+}
+
+#title{
+	font-family: "Trebuchet MS";
+	font-style: italic;
+	font-size: 2.7em;
+	color: orange;
+	padding: 5px;
+	width: 280px;
+	border-style: solid;
+	border-color: orange;
+	border-radius: 10px;
+}
+
+#canvas{
+	background: black;
+}

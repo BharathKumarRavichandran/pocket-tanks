@@ -147,9 +147,14 @@ document.addEventListener('keydown', function(event){
         			pause=true;
         		}
         		else{
-        			pause=false;
+        			pause=false;	
         			animation();
         		}
+        		if(quit==true&&pause==true){
+        				initialise();
+						quit=false;
+						pauseGameDraw();
+        			}
         	}
         	if(event.keyCode==82){//r restart
         		window.location.reload();
@@ -248,7 +253,20 @@ function drawTank1(){
 
 function drawTank2(){
 	ctx.drawImage(tank2,1100,370,tankWidth,tankHeight);
-	ctx.restore();
+}
+
+function playerDataDraw(){
+	ctx.font = "bold 32px Trebuchet MS";
+	ctx.fillStyle = "#123524";
+	ctx.fillText(player1,20,80);
+	ctx.fillText(score1,20,120);
+	ctx.fillText(player2,1100,80);
+	ctx.fillText(score2,1205,120);
+	ctx.font = "bold 25px Trebuchet MS";
+	ctx.fillStyle = "darkred";
+	ctx.fillText("Player Active: "+playerActive,20,160);
+	ctx.fillText("Pause: P",1125,160);
+	ctx.fillText("Quit: Q",1138,193);
 }
 
 function pauseGameDraw(){
@@ -294,41 +312,31 @@ function gameOverDraw(){//end screen to draw on canvas when the game is over
 	ctx.fillText("Press R to restart",canvasWidth-canvasWidth*0.60,canvasHeight-canvasHeight*0.40);
 }
 
-function animation(){
+function initialise(){
 	drawAssets();
 	drawValues();
 	drawHill();
 	drawTank1();
 	drawTank2();
-	ctx.font = "bold 32px Trebuchet MS";
-	ctx.fillStyle = "#123524";
-	ctx.fillText(player1,20,80);
-	ctx.fillText(score1,20,120);
-	ctx.fillText(player2,1100,80);
-	ctx.fillText(score2,1205,120);
-	ctx.font = "bold 25px Trebuchet MS";
-	ctx.fillStyle = "darkred";
-	ctx.fillText("Player Active: "+playerActive,20,160);
-	ctx.fillText("Pause: P",1125,160);
-	ctx.fillText("Quit: Q",1138,193);
-	ctx.fillStyle = "#FFFFFF";
+	playerDataDraw();
+}
 
+function animation(){
+
+	initialise();
 
 	if(pause==true){
-		if(quit==true){
-			ctx.clearRect(canvasWidth-canvasWidth*0.73,canvasHeight-canvasHeight*0.8,600,300);
-			quit=false;
-		}
 		pauseGameDraw();
 		return;
 	}
 	if(quit==true){
+		pause=true;
 		quitGameDraw();
 		return;
 	}
 
 	if(moves1==0&&moves2==0){//Gameover function
-		gameOver==true;
+		gameOver=true;
 		gameOverDraw();
 		return;
 	}

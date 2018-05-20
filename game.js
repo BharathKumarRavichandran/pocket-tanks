@@ -10,6 +10,9 @@ var w2 = screenWidth*0.07;
 document.getElementById("title").style.marginLeft = w1+"px";
 canvas.style.marginLeft = w2+"px"; 
 
+var tankWidth = 80;
+var tankHeight = 50;
+
 var baseY = 490;
 var playerActive = 1;
 var moves1 = 4;
@@ -20,7 +23,11 @@ var angle1 = 60;
 var angle2 = 60;
 var power1 = 1;
 var power2 = 1;
-	
+var player1 = "Player 1";
+var player2 = "Player 2";
+var score1 = 0;
+var score2 = 0;
+var pause = false;
 
 var bg1 = new Image();
 var bg2 = new Image();
@@ -29,6 +36,8 @@ var moveButton = new Image();
 var weaponButton = new Image();
 var angleButton = new Image();
 var powerButton = new Image();
+var tank1 = new Image();
+var tank2 = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -37,6 +46,8 @@ moveButton.src = "assets/move_button.png";
 weaponButton.src = "assets/weapong.png";
 angleButton.src = "assets/angle_button.png";
 powerButton.src = "assets/powerslider.png";
+tank1.src = "assets/tank11.png";
+tank2.src = "assets/tank113.png";
 
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 
@@ -197,6 +208,7 @@ function drawValues(){
 
 function drawHill(){
 	ctx.beginPath();
+	ctx.strokeStyle = "green";
 	ctx.fillStyle = "darkgreen";
 	ctx.moveTo(30,baseY);
 	ctx.bezierCurveTo(100,400,200,500,300,350);
@@ -207,8 +219,19 @@ function drawHill(){
 	ctx.bezierCurveTo(1050,350,1100,400,1120,430);
 	ctx.bezierCurveTo(1150,400, 1200,500,canvasWidth-30,baseY);
 	ctx.closePath();
+	ctx.stroke();
 	ctx.fill();
 	ctx.fillStyle = "#FFFFFF";
+}
+
+function drawTank1(){
+	ctx.drawImage(tank1,100,390,tankWidth,tankHeight);
+}
+
+function drawTank2(){
+	//ctx.rotate(20*Math.PI/180);
+	ctx.drawImage(tank2,1100,370,tankWidth,tankHeight);
+	ctx.restore();
 }
 
 function animation(){
@@ -216,6 +239,19 @@ function animation(){
 	drawAssets();
 	drawValues();
 	drawHill();
+	drawTank1();
+	drawTank2();
+	ctx.font = "bold 32px Trebuchet MS";
+	ctx.fillStyle = "#123524";
+	ctx.fillText(player1,20,80);
+	ctx.fillText(score1,20,120);
+	ctx.fillText(player2,1100,80);
+	ctx.fillText(score2,1205,120);
+	ctx.font = "bold 25px Trebuchet MS";
+	ctx.fillStyle = "darkred";
+	ctx.fillText("Player Active: "+playerActive,20,160);
+	ctx.fillText("Pause: P",1125,160);
+	ctx.fillText("Resume: R",1100,193);
 	ctx.fillStyle = "#FFFFFF";
 
 	requestAnimationFrame(animation);

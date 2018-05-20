@@ -10,6 +10,7 @@ var w2 = screenWidth*0.07;
 document.getElementById("title").style.marginLeft = w1+"px";
 canvas.style.marginLeft = w2+"px"; 
 
+var baseY = 490;
 var playerActive = 1;
 var moves1 = 4;
 var moves2 = 4; 
@@ -36,6 +37,14 @@ moveButton.src = "assets/move_button.png";
 weaponButton.src = "assets/weapong.png";
 angleButton.src = "assets/angle_button.png";
 powerButton.src = "assets/powerslider.png";
+
+var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
+
+
+function stopAudio(audio){
+    audio.pause();
+    audio.currentTime = 0;
+}
 
 document.addEventListener('keydown', function(event){
         	if(event.keyCode==70){//f fire button
@@ -121,6 +130,7 @@ document.addEventListener('keydown', function(event){
         	}
     },false);
 
+
 function drawAssets(){ //Function to draw Backgrounds, Buttons, Letters.
 	ctx.drawImage(bg1,0,0,canvasWidth,canvasHeight);
 	ctx.drawImage(bg2,0,490,canvasWidth,200);
@@ -149,7 +159,9 @@ function drawValues(){
 
 	if(playerActive==1){
 		ctx.fillText(moves1,120,576);
-		ctx.fillText(weapon1,272,571);
+		ctx.font = "bold 17px Arial";
+		ctx.fillText(weapon1,283,568);
+		ctx.font = "bold 22px Arial";
 		ctx.fillText(angle1,879,575);
 		ctx.fillText(power1,1160,575);
 		if(power1==1){
@@ -166,7 +178,9 @@ function drawValues(){
 
 	else{
 		ctx.fillText(moves2,120,576);
-		ctx.fillText(weapon2,272,571);
+		ctx.font = "bold 17px Arial";
+		ctx.fillText(weapon2,283,568);
+		ctx.font = "bold 22px Arial";
 		ctx.fillText(angle2,879,575);
 		ctx.fillText(power2,1160,575);
 		if(power2==1){
@@ -178,15 +192,30 @@ function drawValues(){
 		if(power2==3){
 			ctx.fillRect(1061.5,530,150,15);	
 		}
-
-
 	}
+}
+
+function drawHill(){
+	ctx.beginPath();
+	ctx.fillStyle = "darkgreen";
+	ctx.moveTo(30,baseY);
+	ctx.bezierCurveTo(100,400,200,500,300,350);
+	ctx.bezierCurveTo(400,250,500,300,550,150);
+	ctx.bezierCurveTo(650,100,680,100,700,100);
+	ctx.bezierCurveTo(750,250,800,150,850,200);
+	ctx.bezierCurveTo(900,200,950,250,1000,350);
+	ctx.bezierCurveTo(1050,350,1100,400,1120,430);
+	ctx.bezierCurveTo(1150,400, 1200,500,canvasWidth-30,baseY);
+	ctx.closePath();
+	ctx.fill();
+	ctx.fillStyle = "#FFFFFF";
 }
 
 function animation(){
 
 	drawAssets();
 	drawValues();
+	drawHill();
 	ctx.fillStyle = "#FFFFFF";
 
 	requestAnimationFrame(animation);

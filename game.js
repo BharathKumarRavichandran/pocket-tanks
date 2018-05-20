@@ -20,8 +20,8 @@ var moves1 = 4;
 var moves2 = 4; 
 var weapon1 = "Single Shot";
 var weapon2 = "Single Shot";
-var angle1 = 60;
-var angle2 = 60;
+var angle1 = 30;
+var angle2 = 30;
 var power1 = 1;
 var power2 = 1;
 var player1 = "Player 1";
@@ -48,7 +48,6 @@ var powerButton = new Image();
 var tank1 = new Image();
 var tank2 = new Image();
 var turret1 = new Image();
-var turret2 = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -60,7 +59,6 @@ powerButton.src = "assets/powerslider.png";
 tank1.src = "assets/tank11.png";
 tank2.src = "assets/tank113.png";
 turret1.src = "assets/tanks_turret3.png";
-turret2.src = "assets/tanks_turret4.png";
 
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 
@@ -118,12 +116,12 @@ document.addEventListener('keydown', function(event){
             }
             if(event.keyCode==76){//l angle increase
             	if(playerActive==1){
-					if(angle1<90){
+					if(angle1<60){
 						angle1++;
 					}
 				}
 				else{
-					if(angle2<90){
+					if(angle2<60){
 						angle2++;
 					}
 				}
@@ -259,11 +257,19 @@ function drawHill(){
 }
 
 function drawTurret1(){
-	ctx.drawImage(turret1,tank1X+35,tank1Y+6,turretWidth,turretHeight);
+	ctx.save();
+	ctx.translate(tank1X+37,tank1Y+6);
+	ctx.rotate(-1*angle1*Math.PI/180);
+	ctx.drawImage(turret1,0,0,turretWidth,turretHeight);
+	ctx.restore();
 }
 
 function drawTurret2(){
-	ctx.drawImage(turret2,tank2X-15,tank2Y+6,turretWidth,turretHeight);
+	ctx.save();
+	ctx.translate(tank2X+40,tank2Y+13);
+	ctx.rotate(Math.PI+angle2*Math.PI/180);
+	ctx.drawImage(turret1,0,0,turretWidth,turretHeight);
+	ctx.restore();
 }
 
 function drawTank1(){

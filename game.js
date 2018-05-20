@@ -12,8 +12,9 @@ canvas.style.marginLeft = w2+"px";
 
 var tankWidth = 80;
 var tankHeight = 50;
+var turretWidth = 60;
+var turretHeight = 6;
 
-var baseY = 490;
 var playerActive = 1;
 var moves1 = 4;
 var moves2 = 4; 
@@ -31,6 +32,12 @@ var pause = false;
 var quit = false;
 var gameOver = false;
 
+var baseY = 490;
+var tank1X = 100;
+var tank1Y = 390;
+var tank2X = 1100;
+var tank2Y = 370;
+
 var bg1 = new Image();
 var bg2 = new Image();
 var fireButton = new Image();
@@ -40,6 +47,8 @@ var angleButton = new Image();
 var powerButton = new Image();
 var tank1 = new Image();
 var tank2 = new Image();
+var turret1 = new Image();
+var turret2 = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -50,6 +59,8 @@ angleButton.src = "assets/angle_button.png";
 powerButton.src = "assets/powerslider.png";
 tank1.src = "assets/tank11.png";
 tank2.src = "assets/tank113.png";
+turret1.src = "assets/tanks_turret3.png";
+turret2.src = "assets/tanks_turret4.png";
 
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 
@@ -247,12 +258,20 @@ function drawHill(){
 	ctx.fillStyle = "#FFFFFF";
 }
 
+function drawTurret1(){
+	ctx.drawImage(turret1,tank1X+35,tank1Y+6,turretWidth,turretHeight);
+}
+
+function drawTurret2(){
+	ctx.drawImage(turret2,tank2X-15,tank2Y+6,turretWidth,turretHeight);
+}
+
 function drawTank1(){
-	ctx.drawImage(tank1,100,390,tankWidth,tankHeight);
+	ctx.drawImage(tank1,tank1X,tank1Y,tankWidth,tankHeight);
 }
 
 function drawTank2(){
-	ctx.drawImage(tank2,1100,370,tankWidth,tankHeight);
+	ctx.drawImage(tank2,tank2X,tank2Y,tankWidth,tankHeight);
 }
 
 function playerDataDraw(){
@@ -316,6 +335,8 @@ function initialise(){
 	drawAssets();
 	drawValues();
 	drawHill();
+	drawTurret1();
+	drawTurret2();
 	drawTank1();
 	drawTank2();
 	playerDataDraw();

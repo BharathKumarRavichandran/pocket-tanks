@@ -67,6 +67,7 @@ var tank2 = new Image();
 var turret = new Image();
 var missile = new Image();
 var blastImg = new Image();
+var missileVert = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -80,6 +81,7 @@ tank2.src = "assets/tank113.png";
 turret.src = "assets/tanks_turret3.png";
 missile.src = "assets/bazooka.png";
 blastImg.src = "assets/bazooka_0_574.png";
+missileVert.src = "assets/bazookaVert.png";
 
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 var expshort = new Audio("audio/expshort.wav");
@@ -396,8 +398,18 @@ function playerDataDraw(){//Function which draws the players score,pause,quit bu
 	ctx.font = "bold 32px Trebuchet MS";
 	ctx.fillStyle = "#123524";
 	ctx.fillText(player1,20,80);
+	var bX1 = 160;
+	var bY1 = 55; 
+	for(i=0;i<bullets1;i++){
+		ctx.drawImage(missileVert,bX1+30*i,bY1,15,30);
+	}
 	ctx.fillText(score1,20,120);
 	ctx.fillText(player2,1100,80);
+	var bX2 = 1100;
+	var bY2 = 55; 
+	for(i=bullets2;i>0;i--){
+		ctx.drawImage(missileVert,bX2-30*i,bY2,15,30);
+	}
 	ctx.fillText(score2,1185,120);
 	ctx.font = "bold 25px Trebuchet MS";
 	ctx.fillStyle = "darkred";

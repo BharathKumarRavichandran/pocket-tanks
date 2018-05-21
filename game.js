@@ -14,6 +14,8 @@ var tankWidth = 80;
 var tankHeight = 50;
 var turretWidth = 60;
 var turretHeight = 6;
+var missileWidth = 20;
+var missileHeight = 8;
 
 var playerActive = 1;
 var moves1 = 4;
@@ -31,12 +33,19 @@ var score2 = 0;
 var pause = false;
 var quit = false;
 var gameOver = false;
+var missile1Angle = angle1;
+var missile2Angle = angle2;
+var t=0.2;
 
 var baseY = 490;
 var tank1X = 100;
 var tank1Y = 390;
 var tank2X = 1100;
 var tank2Y = 370;
+var missile1X = turretWidth-20;
+var	missile1Y = turretHeight-7;;
+var	missile2X=turretWidth-20;
+var	missile2Y=turretHeight-7;
 
 var bg1 = new Image();
 var bg2 = new Image();
@@ -47,7 +56,9 @@ var angleButton = new Image();
 var powerButton = new Image();
 var tank1 = new Image();
 var tank2 = new Image();
-var turret1 = new Image();
+var turret = new Image();
+var missile = new Image();
+var missile2 = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -58,7 +69,8 @@ angleButton.src = "assets/angle_button.png";
 powerButton.src = "assets/powerslider.png";
 tank1.src = "assets/tank11.png";
 tank2.src = "assets/tank113.png";
-turret1.src = "assets/tanks_turret3.png";
+turret.src = "assets/tanks_turret3.png";
+missile.src = "assets/bazooka.png";
 
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 
@@ -256,28 +268,53 @@ function drawHill(){
 	ctx.fillStyle = "#FFFFFF";
 }
 
-function drawTurret1(){
-	ctx.save();
-	ctx.translate(tank1X+37,tank1Y+6);
-	ctx.rotate(-1*angle1*Math.PI/180);
-	ctx.drawImage(turret1,0,0,turretWidth,turretHeight);
-	ctx.restore();
-}
-
-function drawTurret2(){
-	ctx.save();
-	ctx.translate(tank2X+40,tank2Y+13);
-	ctx.rotate(Math.PI+angle2*Math.PI/180);
-	ctx.drawImage(turret1,0,0,turretWidth,turretHeight);
-	ctx.restore();
-}
-
 function drawTank1(){
 	ctx.drawImage(tank1,tank1X,tank1Y,tankWidth,tankHeight);
 }
 
 function drawTank2(){
 	ctx.drawImage(tank2,tank2X,tank2Y,tankWidth,tankHeight);
+}
+
+function drawTurret1(){
+	ctx.save();
+	ctx.translate(tank1X+37,tank1Y+6);
+	ctx.rotate(-1*angle1*Math.PI/180);
+	ctx.drawImage(turret,0,0,turretWidth,turretHeight);
+	ctx.restore();
+	missile1Angle=angle1;
+}
+
+function drawTurret2(){
+	ctx.save();
+	ctx.translate(tank2X+40,tank2Y+13);
+	ctx.rotate(Math.PI+angle2*Math.PI/180);
+	ctx.drawImage(turret,0,0,turretWidth,turretHeight);
+	ctx.restore();
+	missile2Angle=angle2;
+}
+
+function missile1Draw(){
+	ctx.save();
+	ctx.translate(tank1X+37,tank1Y+6);
+	ctx.rotate(-1*missile1Angle*Math.PI/180);
+	ctx.drawImage(missile,missile1X,missile1Y,missileWidth,missileHeight);
+	ctx.restore();
+	missile1X+=(2.7*power1*Math.sin(missile1Angle*Math.PI/180));
+	/*missile1X+=(power1*Math.cos(missile1Angle*Math.PI/180)*t);
+	missile1Y+=(power1*Math.sin(missile1Angle*Math.PI/180)*t - 0.5*9.8*t*t);*/
+	/*missile1X+=power1*Math.cos(missile1Angle*Math.PI/180);
+	missile1Y+=power1*Math.sin(missile1Angle*Math.PI/180)-9.8*t;
+	t+=0.002;*/
+}
+
+function missile2Draw(){
+	ctx.save();
+	ctx.translate(tank2X+40,tank2Y+13);
+	ctx.rotate(Math.PI+missile2Angle*Math.PI/180);
+	ctx.drawImage(missile,missile2X,missile2Y,missileWidth,missileHeight);
+	ctx.restore();
+	missile2X+=(2.7*power2*Math.sin(missile2Angle*Math.PI/180));	
 }
 
 function playerDataDraw(){
@@ -351,6 +388,8 @@ function initialise(){
 function animation(){
 
 	initialise();
+	missile1Draw();
+	missile2Draw();
 
 	if(pause==true){
 		pauseGameDraw();

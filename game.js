@@ -351,6 +351,7 @@ function playerDataDraw(){//Function which draws the players score,pause,quit bu
 	ctx.fillText("Player Active: "+playerActive,20,160);
 	ctx.fillText("Pause: P",1125,160);
 	ctx.fillText("Quit: Q",1138,193);
+	ctx.fillText("Restart: R",1105,226);
 }
 
 function pauseGameDraw(){//Function which draws the card placed on game pause

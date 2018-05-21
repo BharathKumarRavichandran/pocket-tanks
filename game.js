@@ -33,15 +33,19 @@ var score2 = 0;
 var pause = false;
 var quit = false;
 var gameOver = false;
+var fire1 = false;
+var fire2 = false;
 var missile1Angle = angle1;
 var missile2Angle = angle2;
+var bullets1 = 5;
+var bullets2 = 5;
 var t=0.2;
 
 var baseY = 490;
-var tank1X = 100;
-var tank1Y = 390;
-var tank2X = 1100;
-var tank2Y = 370;
+var tank1X = 70;
+var tank1Y = 437;
+var tank2X = 1130;
+var tank2Y = 436;
 var missile1X = turretWidth-20;
 var	missile1Y = turretHeight-7;;
 var	missile2X=turretWidth-20;
@@ -58,7 +62,6 @@ var tank1 = new Image();
 var tank2 = new Image();
 var turret = new Image();
 var missile = new Image();
-var missile2 = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -82,6 +85,18 @@ function stopAudio(audio){
 
 document.addEventListener('keydown', function(event){
         	if(event.keyCode==70){//f fire button
+        		if(playerActive==1){
+	        		if(bullets1>0){	
+	        			fire1=true;
+	        			bullets1--;
+	        		}	
+        		}
+        		else{
+        			if(bullets2>0){
+        				fire2=true;
+        				bullets2--;
+        			}
+        		}
 
         	}
             if(event.keyCode==87){//w weapon up
@@ -94,11 +109,13 @@ document.addEventListener('keydown', function(event){
             		if(playerActive==1){
 						if(moves1>0){
 							moves1--;
+							tank1X-=10;
 						}
 					}
 					else{
 						if(moves2>0){
 							moves2--;
+							tank2X-=10;
 						}
 			        }
 			}
@@ -106,11 +123,13 @@ document.addEventListener('keydown', function(event){
 				if(playerActive==1){
 					if(moves1>0){
 						moves1--;
+						tank1X+=10;
 					}
 				}
 				else{
 					if(moves2>0){
 						moves2--;
+						tank2X+=10;
 					}
 				}
             }
@@ -182,6 +201,14 @@ document.addEventListener('keydown', function(event){
         	}
         	if(event.keyCode==81){//q quit
         		quit=true;
+        	}
+        	if(event.keyCode==85){
+        		if(playerActive==1){
+        			playerActive=2;
+        		}
+        		else{
+        			playerActive=1;
+        		}
         	}
     },false);
 
@@ -255,13 +282,13 @@ function drawHill(){
 	ctx.strokeStyle = "green";
 	ctx.fillStyle = "darkgreen";
 	ctx.moveTo(30,baseY);
-	ctx.bezierCurveTo(100,400,200,500,300,350);
+	ctx.bezierCurveTo(100,470,200,550,300,350);
 	ctx.bezierCurveTo(400,250,500,300,550,150);
 	ctx.bezierCurveTo(650,100,680,100,700,100);
 	ctx.bezierCurveTo(750,250,800,150,850,200);
 	ctx.bezierCurveTo(900,200,950,250,1000,350);
-	ctx.bezierCurveTo(1050,350,1100,400,1120,430);
-	ctx.bezierCurveTo(1150,400, 1200,500,canvasWidth-30,baseY);
+	ctx.bezierCurveTo(1050,480,1100,480,1120,480);
+	ctx.bezierCurveTo(1150,490, 1200,480,canvasWidth-30,baseY);
 	ctx.closePath();
 	ctx.stroke();
 	ctx.fill();
@@ -300,12 +327,7 @@ function missile1Draw(){
 	ctx.rotate(-1*missile1Angle*Math.PI/180);
 	ctx.drawImage(missile,missile1X,missile1Y,missileWidth,missileHeight);
 	ctx.restore();
-	missile1X+=(2.7*power1*Math.sin(missile1Angle*Math.PI/180));
-	/*missile1X+=(power1*Math.cos(missile1Angle*Math.PI/180)*t);
-	missile1Y+=(power1*Math.sin(missile1Angle*Math.PI/180)*t - 0.5*9.8*t*t);*/
-	/*missile1X+=power1*Math.cos(missile1Angle*Math.PI/180);
-	missile1Y+=power1*Math.sin(missile1Angle*Math.PI/180)-9.8*t;
-	t+=0.002;*/
+	missile1X+=(2.7*power1*Math.cos(missile1Angle*Math.PI/180));
 }
 
 function missile2Draw(){
@@ -314,7 +336,7 @@ function missile2Draw(){
 	ctx.rotate(Math.PI+missile2Angle*Math.PI/180);
 	ctx.drawImage(missile,missile2X,missile2Y,missileWidth,missileHeight);
 	ctx.restore();
-	missile2X+=(2.7*power2*Math.sin(missile2Angle*Math.PI/180));	
+	missile2X+=(2.7*power2*Math.cos(missile2Angle*Math.PI/180));	
 }
 
 function playerDataDraw(){
@@ -374,6 +396,9 @@ function gameOverDraw(){//end screen to draw on canvas when the game is over
 	ctx.fillText("Press R to restart",canvasWidth-canvasWidth*0.60,canvasHeight-canvasHeight*0.40);
 }
 
+	missileX=150;
+	missileY=370;
+
 function initialise(){
 	drawAssets();
 	drawValues();
@@ -388,8 +413,25 @@ function initialise(){
 function animation(){
 
 	initialise();
-	missile1Draw();
-	missile2Draw();
+
+	if(fire1==true){
+		missile1Draw();
+	}
+	if(fire2==true){	
+		missile2Draw();
+	}
+	/*
+	ctx.drawImage(missile,missileX,missileY,missileWidth,missileHeight);
+	missileX+=power1*Math.cos(missile1Angle*Math.PI/180);
+	if(missileY-50>=power1*power1*Math.sin(missile1Angle*Math.PI/180)*Math.sin(missile1Angle*Math.PI/180)/(2*9.8))
+	{
+		missileY+=power1*Math.sin(missile1Angle*Math.PI/180)-9.8*t;
+	}
+	else{
+		missileY+=9.8*t;
+	}
+	*/
+	
 
 	if(pause==true){
 		pauseGameDraw();
@@ -401,7 +443,7 @@ function animation(){
 		return;
 	}
 
-	if(moves1==0&&moves2==0){//Gameover function
+	if((moves1==0&&moves2==0)||(bullets1==0&&bullets2==0)){//Gameover function
 		gameOver=true;
 		gameOverDraw();
 		return;

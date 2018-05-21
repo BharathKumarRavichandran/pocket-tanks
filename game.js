@@ -97,13 +97,13 @@ function stopAudio(audio){//Function to stop Audio from playing by passing audio
 document.addEventListener('keydown', function(event){//EventListener function to listen to events in the document
         	if(event.keyCode==70){//f fire button
         		if(playerActive==1){
-	        		if(bullets1>0){	
+	        		if(bullets1>0&&fire1==false){	
 	        			fire1=true;
 	        			bullets1--;
 	        		}	
         		}
         		else{
-        			if(bullets2>0){
+        			if(bullets2>0&&fire2==false){
         				fire2=true;
         				bullets2--;
         			}

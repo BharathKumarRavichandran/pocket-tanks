@@ -386,7 +386,7 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 			exphuge.play();
 		}
 		fire2=false;
-		playerActive=2;
+		playerActive=1;
 		missile2X = turretWidth-20;
 		missile2Y = turretHeight-7;
 	}

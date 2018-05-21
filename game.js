@@ -47,9 +47,13 @@ var tank1Y = 437;
 var tank2X = 1130;
 var tank2Y = 436;
 var missile1X = turretWidth-20;
-var	missile1Y = turretHeight-7;;
+var	missile1Y = turretHeight-7;
 var	missile2X=turretWidth-20;
 var	missile2Y=turretHeight-7;
+var mHitX1;//X-Coordinate of missile1's end tip 
+var mHitY1;//Y-Coordinate of missile1's end tip
+var mHitX2;//X-Coordinate of missile2's end tip
+var mHitY2;//Y-Coordinate of missile2's end tip
 
 var bg1 = new Image();
 var bg2 = new Image();
@@ -62,6 +66,7 @@ var tank1 = new Image();
 var tank2 = new Image();
 var turret = new Image();
 var missile = new Image();
+var blastImg = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -74,8 +79,12 @@ tank1.src = "assets/tank11.png";
 tank2.src = "assets/tank113.png";
 turret.src = "assets/tanks_turret3.png";
 missile.src = "assets/bazooka.png";
+blastImg.src = "assets/bazooka_0_574.png";
 
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
+var expshort = new Audio("audio/expshort.wav");
+var expmedium = new Audio("audio/expmedium.wav");
+var exphuge = new Audio("audio/exphuge.wav");
 
 
 function stopAudio(audio){//Function to stop Audio from playing by passing audio variable_name
@@ -328,6 +337,9 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 	ctx.drawImage(missile,missile1X,missile1Y,missileWidth,missileHeight);
 	ctx.restore();
 	missile1X+=(2.7*power1*Math.cos(missile1Angle*Math.PI/180));
+	mHitX1 = tank1X+50+missile1X*Math.cos(missile1Angle*Math.PI/180);
+	mHitY1 = tank1Y+2-missile1X*Math.sin(missile1Angle*Math.PI/180);
+	missileHitCheck1();
 }
 
 function missile2Draw(){//Function which draws the missile launched from tank2
@@ -336,7 +348,48 @@ function missile2Draw(){//Function which draws the missile launched from tank2
 	ctx.rotate(Math.PI+missile2Angle*Math.PI/180);
 	ctx.drawImage(missile,missile2X,missile2Y,missileWidth,missileHeight);
 	ctx.restore();
-	missile2X+=(2.7*power2*Math.cos(missile2Angle*Math.PI/180));	
+	missile2X+=(2.7*power2*Math.cos(missile2Angle*Math.PI/180));
+	mHitX2 = tank2X+23-missile2X*Math.cos(missile2Angle*Math.PI/180);
+	mHitY2 = tank2Y-2-missile2X*Math.sin(missile2Angle*Math.PI/180);
+	missileHitCheck2();
+}
+
+function missileHitCheck1(){//Function to check whether the missile1 hits the tank2
+	if(((mHitX1>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){
+		score1+=20;
+		if(power1==1){
+			expshort.play();
+		}
+		else if(power1==2){
+			expmed.play();
+		}
+		else{
+			exphuge.play();
+		}
+		fire1=false;
+		playerActive=2;
+		missile1X = turretWidth-20;
+		missile1Y = turretHeight-7;
+	}
+}
+
+function missileHitCheck2(){//Function to check whether the missile2 hits the tank1
+	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){
+		score2+=20;
+		if(power2==1){
+			expshort.play();
+		}
+		else if(power2==2){
+			expmed.play();
+		}
+		else{
+			exphuge.play();
+		}
+		fire2=false;
+		playerActive=2;
+		missile2X = turretWidth-20;
+		missile2Y = turretHeight-7;
+	}
 }
 
 function playerDataDraw(){//Function which draws the players score,pause,quit button information
@@ -345,7 +398,7 @@ function playerDataDraw(){//Function which draws the players score,pause,quit bu
 	ctx.fillText(player1,20,80);
 	ctx.fillText(score1,20,120);
 	ctx.fillText(player2,1100,80);
-	ctx.fillText(score2,1205,120);
+	ctx.fillText(score2,1185,120);
 	ctx.font = "bold 25px Trebuchet MS";
 	ctx.fillStyle = "darkred";
 	ctx.fillText("Player Active: "+playerActive,20,160);

@@ -357,7 +357,7 @@ function missile2Draw(){//Function which draws the missile launched from tank2
 }
 
 function missileHitCheck1(){//Function to check whether the missile1 hits the tank2
-	if(((mHitX1>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){
+	if(((mHitX1>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){//condition if the missile hits the tank
 		score1+=20;
 		if(power1==1){
 			expshort.play();
@@ -373,10 +373,17 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 		missile1X = turretWidth-20;
 		missile1Y = turretHeight-7;
 	}
+
+	if(mHitX1>canvasWidth||mHitY1<0||mHitX1<0||mHitY1>canvasHeight){//condition if the missile goes out of the canvas
+		fire1=false;
+		playerActive=2;
+		missile1X = turretWidth-20;
+		missile1Y = turretHeight-7;
+	}
 }
 
 function missileHitCheck2(){//Function to check whether the missile2 hits the tank1
-	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){
+	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){//condition if the missile hits the tank
 		score2+=20;
 		if(power2==1){
 			expshort.play();
@@ -391,6 +398,19 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		playerActive=1;
 		missile2X = turretWidth-20;
 		missile2Y = turretHeight-7;
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
+	}
+
+	if(mHitX2<0||mHitY2<0||mHitX2>canvasWidth||mHitY2>canvasHeight){//condition if the missile goes out of the canvas
+		fire2=false;
+		playerActive=1;
+		missile2X = turretWidth-20;
+		missile2Y = turretHeight-7;
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
 	}
 }
 
@@ -494,8 +514,7 @@ function animation(){
 		return;
 	}
 
-	if((moves1==0&&moves2==0)||(bullets1==0&&bullets2==0)){//Gameover condition checking
-		gameOver=true;
+	if(gameOver==true){//Gameover condition checking
 		gameOverDraw();
 		return;
 	}

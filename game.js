@@ -396,9 +396,6 @@ function gameOverDraw(){//end screen to draw on canvas when the game is over
 	ctx.fillText("Press R to restart",canvasWidth-canvasWidth*0.60,canvasHeight-canvasHeight*0.40);
 }
 
-	missileX=150;
-	missileY=370;
-
 function initialise(){
 	drawAssets();
 	drawValues();
@@ -419,19 +416,7 @@ function animation(){
 	}
 	if(fire2==true){	
 		missile2Draw();
-	}
-	/*
-	ctx.drawImage(missile,missileX,missileY,missileWidth,missileHeight);
-	missileX+=power1*Math.cos(missile1Angle*Math.PI/180);
-	if(missileY-50>=power1*power1*Math.sin(missile1Angle*Math.PI/180)*Math.sin(missile1Angle*Math.PI/180)/(2*9.8))
-	{
-		missileY+=power1*Math.sin(missile1Angle*Math.PI/180)-9.8*t;
-	}
-	else{
-		missileY+=9.8*t;
-	}
-	*/
-	
+	}	
 
 	if(pause==true){
 		pauseGameDraw();

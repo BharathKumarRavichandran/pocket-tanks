@@ -7,8 +7,8 @@ var canvasWidth = canvas.getAttribute("width");
 var canvasHeight = canvas.getAttribute("height");
 var w1 = (screenWidth/2) - screenWidth*0.1;;
 var w2 = screenWidth*0.07;
-document.getElementById("title").style.marginLeft = w1+"px";
-canvas.style.marginLeft = w2+"px"; 
+document.getElementById("title").style.marginLeft = w1+"px";//Aligning title in the centre by manipulating margin-left property
+canvas.style.marginLeft = w2+"px";//Aligning canvas in the centre by manipulating margin-left property
 
 var tankWidth = 80;
 var tankHeight = 50;
@@ -17,28 +17,28 @@ var turretHeight = 6;
 var missileWidth = 20;
 var missileHeight = 8;
 
-var playerActive = 1;
-var moves1 = 4;
-var moves2 = 4; 
-var weapon1 = "Single Shot";
-var weapon2 = "Single Shot";
-var angle1 = 30;
-var angle2 = 30;
-var power1 = 1;
-var power2 = 1;
+var playerActive = 1;//player who is currently active in gameplay
+var moves1 = 4;//moves left for player1
+var moves2 = 4;//moves left for player2
+var weapon1 = "Single Shot";//Weapon selected by player1
+var weapon2 = "Single Shot";//Weapon selected by player2
+var angle1 = 30;//Angle of turret of tank1
+var angle2 = 30;//Angle of turret of tank2
+var power1 = 1;//Power of missile launched by tank1
+var power2 = 1;//Power of missile launched by tank2
 var player1 = "Player 1";
 var player2 = "Player 2";
-var score1 = 0;
-var score2 = 0;
+var score1 = 0;//score of player1
+var score2 = 0;//score of player2
 var pause = false;
 var quit = false;
 var gameOver = false;
 var fire1 = false;
 var fire2 = false;
-var missile1Angle = angle1;
-var missile2Angle = angle2;
-var bullets1 = 5;
-var bullets2 = 5;
+var missile1Angle = angle1;//Angle of missile launched by tank1
+var missile2Angle = angle2;//Angle of missile launched by tank2
+var bullets1 = 5;//missiles left for tank1
+var bullets2 = 5;//missiles left for tank2
 var t=0.2;
 
 var baseY = 490;
@@ -78,12 +78,12 @@ missile.src = "assets/bazooka.png";
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 
 
-function stopAudio(audio){
+function stopAudio(audio){//Function to stop Audio from playing by passing audio variable_name
     audio.pause();
     audio.currentTime = 0;
 }
 
-document.addEventListener('keydown', function(event){
+document.addEventListener('keydown', function(event){//EventListener function to listen to events in the document
         	if(event.keyCode==70){//f fire button
         		if(playerActive==1){
 	        		if(bullets1>0){	
@@ -235,7 +235,7 @@ function drawAssets(){ //Function to draw Backgrounds, Buttons, Letters.
 	ctx.fillText("M",1203,573);
 }
 
-function drawValues(){
+function drawValues(){//Function which draws move,angle,power values
 	ctx.fillStyle = "#FF0000";
 	ctx.font = "bold 22px Arial";
 
@@ -277,7 +277,7 @@ function drawValues(){
 	}
 }
 
-function drawHill(){
+function drawHill(){//Function which draws the hill in between the tanks
 	ctx.beginPath();
 	ctx.strokeStyle = "green";
 	ctx.fillStyle = "darkgreen";
@@ -295,15 +295,15 @@ function drawHill(){
 	ctx.fillStyle = "#FFFFFF";
 }
 
-function drawTank1(){
+function drawTank1(){//Function which draws the tank which is placed on the left side
 	ctx.drawImage(tank1,tank1X,tank1Y,tankWidth,tankHeight);
 }
 
-function drawTank2(){
+function drawTank2(){//Function which draws the tank which is placed on the right side
 	ctx.drawImage(tank2,tank2X,tank2Y,tankWidth,tankHeight);
 }
 
-function drawTurret1(){
+function drawTurret1(){//Function which draws the tank's turret which is placed on the left side
 	ctx.save();
 	ctx.translate(tank1X+37,tank1Y+6);
 	ctx.rotate(-1*angle1*Math.PI/180);
@@ -312,7 +312,7 @@ function drawTurret1(){
 	missile1Angle=angle1;
 }
 
-function drawTurret2(){
+function drawTurret2(){//Function which draws the tank's turret which is placed on the right side
 	ctx.save();
 	ctx.translate(tank2X+40,tank2Y+13);
 	ctx.rotate(Math.PI+angle2*Math.PI/180);
@@ -321,7 +321,7 @@ function drawTurret2(){
 	missile2Angle=angle2;
 }
 
-function missile1Draw(){
+function missile1Draw(){//Function which draws the missile launched from tank1
 	ctx.save();
 	ctx.translate(tank1X+37,tank1Y+6);
 	ctx.rotate(-1*missile1Angle*Math.PI/180);
@@ -330,7 +330,7 @@ function missile1Draw(){
 	missile1X+=(2.7*power1*Math.cos(missile1Angle*Math.PI/180));
 }
 
-function missile2Draw(){
+function missile2Draw(){//Function which draws the missile launched from tank2
 	ctx.save();
 	ctx.translate(tank2X+40,tank2Y+13);
 	ctx.rotate(Math.PI+missile2Angle*Math.PI/180);
@@ -339,7 +339,7 @@ function missile2Draw(){
 	missile2X+=(2.7*power2*Math.cos(missile2Angle*Math.PI/180));	
 }
 
-function playerDataDraw(){
+function playerDataDraw(){//Function which draws the players score,pause,quit button information
 	ctx.font = "bold 32px Trebuchet MS";
 	ctx.fillStyle = "#123524";
 	ctx.fillText(player1,20,80);
@@ -353,7 +353,7 @@ function playerDataDraw(){
 	ctx.fillText("Quit: Q",1138,193);
 }
 
-function pauseGameDraw(){
+function pauseGameDraw(){//Function which draws the card placed on game pause
 	ctx.fillStyle = "#000000";
 	ctx.globalAlpha = 0.6;
 	ctx.fillRect(canvasWidth-canvasWidth*0.73,canvasHeight-canvasHeight*0.8,600,300);
@@ -367,7 +367,7 @@ function pauseGameDraw(){
 	ctx.fillText("Press R to restart",canvasWidth-canvasWidth*0.59,canvasHeight-canvasHeight*0.40);
 }
 
-function quitGameDraw(){
+function quitGameDraw(){//Function which draws the card placed on game quit
 	ctx.fillStyle = "#000000";
 	ctx.globalAlpha = 0.6;
 	ctx.fillRect(canvasWidth-canvasWidth*0.73,canvasHeight-canvasHeight*0.8,600,300);
@@ -396,7 +396,7 @@ function gameOverDraw(){//end screen to draw on canvas when the game is over
 	ctx.fillText("Press R to restart",canvasWidth-canvasWidth*0.60,canvasHeight-canvasHeight*0.40);
 }
 
-function initialise(){
+function initialise(){//Function to call other functions collectively
 	drawAssets();
 	drawValues();
 	drawHill();
@@ -409,7 +409,7 @@ function initialise(){
 
 function animation(){
 
-	initialise();
+	initialise();//initialising functions to draw required elements over the canvas
 
 	if(fire1==true){
 		missile1Draw();
@@ -428,7 +428,7 @@ function animation(){
 		return;
 	}
 
-	if((moves1==0&&moves2==0)||(bullets1==0&&bullets2==0)){//Gameover function
+	if((moves1==0&&moves2==0)||(bullets1==0&&bullets2==0)){//Gameover condition checking
 		gameOver=true;
 		gameOverDraw();
 		return;

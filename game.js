@@ -26,20 +26,22 @@ var angle1 = 30;//Angle of turret of tank1
 var angle2 = 30;//Angle of turret of tank2
 var power1 = 1;//Power of missile launched by tank1
 var power2 = 1;//Power of missile launched by tank2
-var player1 = "Player 1";
-var player2 = "Player 2";
+var player1 = "Player 1";//Player1's name
+var player2 = "Player 2";//Player2's name
 var score1 = 0;//score of player1
 var score2 = 0;//score of player2
-var pause = false;
-var quit = false;
-var gameOver = false;
-var fire1 = false;
-var fire2 = false;
+var pause = false;//To check whether the gameplay is in pause or not
+var quit = false;//To check whether the player wants to quit
+var gameOver = false;//To check whether the game is over
+var fire1 = false;//To check the missile motion of tank1
+var fire2 = false;//To check the missile motion of tank2
+var move = true;//To check/remove move event when missile is in motion
+var angle = true;//To check/remove angle changing event when missile is in motion
+var power = true;//To check/remove power changing event when missile is in motion
 var missile1Angle = angle1;//Angle of missile launched by tank1
 var missile2Angle = angle2;//Angle of missile launched by tank2
 var bullets1 = 5;//missiles left for tank1
 var bullets2 = 5;//missiles left for tank2
-var t=0.2;
 
 var baseY = 490;
 var tank1X = 70;
@@ -100,12 +102,20 @@ document.addEventListener('keydown', function(event){//EventListener function to
 	        		if(bullets1>0&&fire1==false){	
 	        			fire1=true;
 	        			bullets1--;
+	        			move=false;
+	        			angle=false;
+	        			power=false;
+	        			weapon=false;
 	        		}	
         		}
         		else{
         			if(bullets2>0&&fire2==false){
         				fire2=true;
         				bullets2--;
+        				move=false;
+	        			angle=false;
+	        			power=false;
+	        			weapon=false;
         			}
         		}
 
@@ -116,7 +126,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
             if(event.keyCode==83){//s weapon down
 
             }
-            if(event.keyCode==65){//a tank move left
+            if(event.keyCode==65&&move==true){//a tank move left
             		if(playerActive==1){
 						if(moves1>0){
 							moves1--;
@@ -130,7 +140,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
 						}
 			        }
 			}
-            if(event.keyCode==68){//d tank move right	
+            if(event.keyCode==68&&move==true){//d tank move right	
 				if(playerActive==1){
 					if(moves1>0){
 						moves1--;
@@ -144,7 +154,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
 					}
 				}
             }
-            if(event.keyCode==74){//j angle decrease
+            if(event.keyCode==74&&angle==true){//j angle decrease
             	if(playerActive==1){
             		if(angle1>0){
 						angle1--;
@@ -156,7 +166,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
 					}
 				}
             }
-            if(event.keyCode==76){//l angle increase
+            if(event.keyCode==76&&angle==true){//l angle increase
             	if(playerActive==1){
 					if(angle1<60){
 						angle1++;
@@ -168,7 +178,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
 					}
 				}
             }
-        	if(event.keyCode==78){//n power increase
+        	if(event.keyCode==78&&power==true){//n power increase
             	if(playerActive==1){
 					if(power1>1){
 						power1--;
@@ -180,7 +190,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
 					}
 				}
         	}
-            if(event.keyCode==77){//m power increase
+            if(event.keyCode==77&&power==true){//m power increase
             	if(playerActive==1){
 					if(power1<3){
 						power1++;
@@ -368,14 +378,24 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 		else{
 			exphuge.play();
 		}
+		//Removing restriction on user to change the values
 		fire1=false;
+		move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;
 		playerActive=2;
 		missile1X = turretWidth-20;
 		missile1Y = turretHeight-7;
 	}
 
 	if(mHitX1>canvasWidth||mHitY1<0||mHitX1<0||mHitY1>canvasHeight){//condition if the missile goes out of the canvas
+		//Removing restriction on user to change the values
 		fire1=false;
+	    move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;	
 		playerActive=2;
 		missile1X = turretWidth-20;
 		missile1Y = turretHeight-7;
@@ -394,7 +414,12 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		else{
 			exphuge.play();
 		}
+		//Removing restriction on user to change the values
 		fire2=false;
+		move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;
 		playerActive=1;
 		missile2X = turretWidth-20;
 		missile2Y = turretHeight-7;
@@ -404,7 +429,12 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	}
 
 	if(mHitX2<0||mHitY2<0||mHitX2>canvasWidth||mHitY2>canvasHeight){//condition if the missile goes out of the canvas
+		//Removing restriction on user to change the values
 		fire2=false;
+		move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;
 		playerActive=1;
 		missile2X = turretWidth-20;
 		missile2Y = turretHeight-7;

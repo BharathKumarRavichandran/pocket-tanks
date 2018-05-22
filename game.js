@@ -20,8 +20,8 @@ var missileHeight = 8;
 var playerActive = 1;//player who is currently active in gameplay
 var moves1 = 4;//moves left for player1
 var moves2 = 4;//moves left for player2
-var weapon1 = "Single Shot";//Weapon selected by player1
-var weapon2 = "Single Shot";//Weapon selected by player2
+var weapon1 = "Missile";//Weapon selected by player1
+var weapon2 = "Missile";//Weapon selected by player2
 var angle1 = 30;//Angle of turret of tank1
 var angle2 = 30;//Angle of turret of tank2
 var power1 = 1;//Power of missile launched by tank1
@@ -52,10 +52,18 @@ var missile1X = turretWidth-20;
 var	missile1Y = turretHeight-7;
 var	missile2X=turretWidth-20;
 var	missile2Y=turretHeight-7;
+var shotWidth = 15;
+var shotHeight = 15;
+var shot1X = missile1X;
+var shot1Y = missile1Y;
+var shot2X = missile2X;
+var shot2Y = missile2Y;
 var mHitX1;//X-Coordinate of missile1's end tip 
 var mHitY1;//Y-Coordinate of missile1's end tip
 var mHitX2;//X-Coordinate of missile2's end tip
 var mHitY2;//Y-Coordinate of missile2's end tip
+
+var t=0;//Variable to keep track of time from launching of shots/missiles
 
 var bg1 = new Image();
 var bg2 = new Image();
@@ -68,6 +76,7 @@ var tank1 = new Image();
 var tank2 = new Image();
 var turret = new Image();
 var missile = new Image();
+var shot = new Image();
 var blastImg = new Image();
 var missileVert = new Image();
 
@@ -82,6 +91,7 @@ tank1.src = "assets/tank11.png";
 tank2.src = "assets/tank113.png";
 turret.src = "assets/tanks_turret3.png";
 missile.src = "assets/bazooka.png";
+shot.src = "assets/projectiles/shot.png";
 blastImg.src = "assets/bazooka_0_574.png";
 missileVert.src = "assets/bazookaVert.png";
 
@@ -102,6 +112,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
         	if(event.keyCode==70){//f fire button
         		if(playerActive==1){
 	        		if(bullets1>0&&fire1==false){
+	        			t=0;
 	        			shotFired.play();	
 	        			fire1=true;
 	        			bullets1--;
@@ -113,6 +124,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
         		}
         		else{
         			if(bullets2>0&&fire2==false){
+        				t=0;
         				shotFired.play();
         				fire2=true;
         				bullets2--;
@@ -124,10 +136,24 @@ document.addEventListener('keydown', function(event){//EventListener function to
         		}
 
         	}
-            if(event.keyCode==87){//w weapon up
+            if(event.keyCode==87||event.keyCode==83){//w weapon up
+            	if(playerActive==1){
+            		if(weapon1=="Single Shot"){
+            			weapon1="Missile";
+            		}
+            		else{
+            			weapon1="Single Shot";
+            		}
+            	}
+            	else{
+            		if(weapon2=="Single Shot"){
+            			weapon2="Missile";
+            		}
+            		else{
+            			weapon2="Single Shot";
+            		}
 
-            }
-            if(event.keyCode==83){//s weapon down
+            	}
 
             }
             if(event.keyCode==65&&move==true){//a tank move left
@@ -227,7 +253,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
         	if(event.keyCode==81){//q quit
         		quit=true;
         	}
-        	if(event.keyCode==85){
+        	if(event.keyCode==85){//u key to switch players
         		if(playerActive==1){
         			playerActive=2;
         		}
@@ -267,7 +293,7 @@ function drawValues(){//Function which draws move,angle,power values
 	if(playerActive==1){
 		ctx.fillText(moves1,120,576);
 		ctx.font = "bold 17px Trebuchet MS";
-		ctx.fillText(weapon1,283,568);
+		ctx.fillText(weapon1,297,568);
 		ctx.font = "bold 22px Trebuchet MS";
 		ctx.fillText(angle1,879,575);
 		ctx.fillText(power1,1160,575);
@@ -286,7 +312,7 @@ function drawValues(){//Function which draws move,angle,power values
 	else{
 		ctx.fillText(moves2,120,576);
 		ctx.font = "bold 17px Trebuchet MS";
-		ctx.fillText(weapon2,283,568);
+		ctx.fillText(weapon2,297,568);
 		ctx.font = "bold 22px Trebuchet MS";
 		ctx.fillText(angle2,879,575);
 		ctx.fillText(power2,1160,575);
@@ -356,6 +382,27 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 	mHitX1 = tank1X+50+missile1X*Math.cos(missile1Angle*Math.PI/180);
 	mHitY1 = tank1Y+2-missile1X*Math.sin(missile1Angle*Math.PI/180);
 	missileHitCheck1();
+	
+}
+
+function shot1Draw(){
+	t+=0.1;
+	ctx.save();
+	ctx.translate(tank1X+37,tank1Y+6);
+	ctx.rotate(-1*missile1Angle*Math.PI/180);
+	ctx.drawImage(shot,shot1X,shot1Y-5,shotWidth,shotHeight);
+	ctx.restore();
+	shot1X=(2.7*power1*Math.cos(missile1Angle*Math.PI/180)+9.8*t);
+	var hMax = turretHeight-7-(Math.pow(2.7*power1*Math.cos(missile1Angle*Math.PI/180),2)/(2*9.8));
+	if(shot1Y<=hMax){
+		shot1Y=(2.7*power1*Math.sin(missile1Angle*Math.PI/180)+9.8*t);
+	}
+	else{
+		shot1Y=(2.7*power1*Math.sin(missile1Angle*Math.PI/180)-9.8*t);
+	}
+	mHitX1 = tank1X+50+missile1X*Math.cos(missile1Angle*Math.PI/180);
+	mHitY1 = tank1Y+2-missile1X*Math.sin(missile1Angle*Math.PI/180);
+	missileHitCheck1();
 }
 
 function missile2Draw(){//Function which draws the missile launched from tank2
@@ -370,9 +417,38 @@ function missile2Draw(){//Function which draws the missile launched from tank2
 	missileHitCheck2();
 }
 
+function shot2Draw(){
+	t+=0.1;
+	ctx.save();
+	ctx.translate(tank2X+40,tank2Y+13);
+	ctx.rotate(Math.PI+missile2Angle*Math.PI/180);
+	ctx.drawImage(shot,shot2X,shot2Y-5,shotWidth,shotHeight);
+	ctx.restore();
+	shot2X=(2.7*power2*Math.cos(missile2Angle*Math.PI/180)+9.8*t);
+	var hMax = turretHeight-7-(Math.pow(2.7*power2*Math.cos(missile2Angle*Math.PI/180),2)/(2*9.8));
+	if(shot2Y<=hMax){
+		shot2Y=(2.7*power2*Math.sin(missile2Angle*Math.PI/180)+9.8*t);
+	}
+	else{
+		shot2Y=(2.7*power2*Math.sin(missile2Angle*Math.PI/180)-9.8*t);
+	}
+	mHitX2 = tank2X+23-missile2X*Math.cos(missile2Angle*Math.PI/180);
+	mHitY2 = tank2Y-2-missile2X*Math.sin(missile2Angle*Math.PI/180);
+	missileHitCheck2();
+}
+
 function missileHitCheck1(){//Function to check whether the missile1 hits the tank2
 	if(((mHitX1>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){//condition if the missile hits the tank
-		score1+=20;
+		if(weapon1=="Single Shot"){
+			score1+=15;
+			shot1X = turretWidth-20;
+			shot1Y = turretHeight-7;
+		}
+		else{
+			score1+=20;
+			missile1X = turretWidth-20;
+			missile1Y = turretHeight-7;
+		}
 		if(power1==1){
 			expshort.play();
 		}
@@ -389,8 +465,6 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=2;
-		missile1X = turretWidth-20;
-		missile1Y = turretHeight-7;
 	}
 
 	if(mHitX1>canvasWidth||mHitY1<0||mHitX1<0||mHitY1>canvasHeight){//condition if the missile goes out of the canvas
@@ -401,14 +475,29 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	    power=true;
 	    weapon=true;	
 		playerActive=2;
-		missile1X = turretWidth-20;
-		missile1Y = turretHeight-7;
+		if(weapon1=="Single Shot"){
+			shot1X = turretWidth-20;
+			shot1Y = turretHeight-7;
+		}
+		else{
+			missile1X = turretWidth-20;
+			missile1Y = turretHeight-7;
+		}
 	}
 }
 
 function missileHitCheck2(){//Function to check whether the missile2 hits the tank1
 	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){//condition if the missile hits the tank
-		score2+=20;
+		if(weapon2=="Single Shot"){
+			score2+=15;
+			shot2X = turretWidth-20;
+			shot2Y = turretHeight-7;
+		}
+		else{
+			score2+=20;
+			missile2X = turretWidth-20;
+			missile2Y = turretHeight-7;
+		}
 		if(power2==1){
 			expshort.play();
 		}
@@ -425,8 +514,6 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=1;
-		missile2X = turretWidth-20;
-		missile2Y = turretHeight-7;
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
 			gameOver=true;
 		}
@@ -440,8 +527,14 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=1;
-		missile2X = turretWidth-20;
-		missile2Y = turretHeight-7;
+		if(weapon2=="Single Shot"){
+			shot2X = turretWidth-20;
+			shot2Y = turretHeight-7;
+		}
+		else{
+			missile2X = turretWidth-20;
+			missile2Y = turretHeight-7;
+		}
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
 			gameOver=true;
 		}
@@ -532,10 +625,20 @@ function animation(){
 	initialise();//initialising functions to draw required elements over the canvas
 
 	if(fire1==true){
-		missile1Draw();
+		if(weapon1=="Single Shot"){
+			shot1Draw();
+		}
+		else{
+			missile1Draw();
+		}
 	}
-	if(fire2==true){	
-		missile2Draw();
+	if(fire2==true){
+		if(weapon2=="Single Shot"){
+			shot2Draw();
+		}	
+		else{
+			missile2Draw();
+		}
 	}	
 
 	if(pause==true){

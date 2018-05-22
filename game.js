@@ -460,7 +460,7 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 			expshort.play();
 		}
 		else if(power1==2){
-			expmed.play();
+			expmedium.play();
 		}
 		else{
 			exphuge.play();
@@ -506,7 +506,7 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 			expshort.play();
 		}
 		else if(power1==2){
-			expmed.play();
+			expmedium.play();
 		}
 		else{
 			exphuge.play();
@@ -534,7 +534,7 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 			expshort.play();
 		}
 		else if(power1==2){
-			expmed.play();
+			expmedium.play();
 		}
 		else{
 			exphuge.play();
@@ -565,7 +565,7 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 			expshort.play();
 		}
 		else if(power2==2){
-			expmed.play();
+			expmedium.play();
 		}
 		else{
 			exphuge.play();
@@ -617,7 +617,7 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 			expshort.play();
 		}
 		else if(power2==2){
-			expmed.play();
+			expmedium.play();
 		}
 		else{
 			exphuge.play();
@@ -645,7 +645,7 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 			expshort.play();
 		}
 		else if(power2==2){
-			expmed.play();
+			expmedium.play();
 		}
 		else{
 			exphuge.play();

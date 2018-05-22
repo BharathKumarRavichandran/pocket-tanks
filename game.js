@@ -38,6 +38,7 @@ var fire2 = false;//To check the missile motion of tank2
 var move = true;//To check/remove move event when missile is in motion
 var angle = true;//To check/remove angle changing event when missile is in motion
 var power = true;//To check/remove power changing event when missile is in motion
+var weapon = true;//To check/remove weapon changing event when missile is in motion
 var missile1Angle = angle1;//Angle of missile launched by tank1
 var missile2Angle = angle2;//Angle of missile launched by tank2
 var bullets1 = 5;//missiles left for tank1
@@ -137,8 +138,8 @@ document.addEventListener('keydown', function(event){//EventListener function to
         		}
 
         	}
-            if(event.keyCode==87||event.keyCode==83){//w weapon up, s weapon down
-            	weaponChange.play();
+            if((event.keyCode==87||event.keyCode==83)&&weapon==true){//w weapon up, s weapon down
+          		weaponChange.play();
             	if(playerActive==1){
             		if(weapon1=="Single Shot"){
             			weapon1="Missile";

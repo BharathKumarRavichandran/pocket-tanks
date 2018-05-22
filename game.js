@@ -101,6 +101,7 @@ var dead = new Audio("audio/dead.wav");
 var expshort = new Audio("audio/expshort.wav");
 var expmedium = new Audio("audio/expmedium.wav");
 var exphuge = new Audio("audio/exphuge.wav");
+var weaponChange = new Audio("audio/load.mp3");
 
 
 function stopAudio(audio){//Function to stop Audio from playing by passing audio variable_name
@@ -136,7 +137,8 @@ document.addEventListener('keydown', function(event){//EventListener function to
         		}
 
         	}
-            if(event.keyCode==87||event.keyCode==83){//w weapon up
+            if(event.keyCode==87||event.keyCode==83){//w weapon up, s weapon down
+            	weaponChange.play();
             	if(playerActive==1){
             		if(weapon1=="Single Shot"){
             			weapon1="Missile";

@@ -336,12 +336,16 @@ function drawHill(){//Function which draws the hill in between the tanks
 	ctx.strokeStyle = "green";
 	ctx.fillStyle = "darkgreen";
 	ctx.moveTo(30,baseY);
-	ctx.bezierCurveTo(100,470,200,550,300,350);
+	ctx.bezierCurveTo(100,470,160,520,230,450);
+	ctx.lineTo(650,140);
+	/*
 	ctx.bezierCurveTo(400,250,500,300,550,150);
 	ctx.bezierCurveTo(650,100,680,100,700,100);
 	ctx.bezierCurveTo(750,250,800,150,850,200);
 	ctx.bezierCurveTo(900,200,950,250,1000,350);
 	ctx.bezierCurveTo(1050,480,1100,480,1120,480);
+	*/
+	ctx.lineTo(1050,480);
 	ctx.bezierCurveTo(1150,490, 1200,480,canvasWidth-30,baseY);
 	ctx.closePath();
 	ctx.stroke();
@@ -381,7 +385,7 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 	ctx.rotate(-1*missile1Angle*Math.PI/180);
 	ctx.drawImage(missile,missile1X,missile1Y,missileWidth,missileHeight);
 	ctx.restore();
-	missile1X+=(2.7*power1*Math.cos(missile1Angle*Math.PI/180));
+	missile1X+=(3.7*power1*Math.cos(missile1Angle*Math.PI/180));
 	mHitX1 = tank1X+50+missile1X*Math.cos(missile1Angle*Math.PI/180);
 	mHitY1 = tank1Y+2-missile1X*Math.sin(missile1Angle*Math.PI/180);
 	missileHitCheck1();
@@ -389,7 +393,7 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 }
 
 function shot1Draw(){
-	t+=0.1;
+	t+=0.5;
 	ctx.save();
 	ctx.translate(tank1X+37,tank1Y+6);
 	ctx.rotate(-1*missile1Angle*Math.PI/180);
@@ -486,6 +490,62 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 			missile1X = turretWidth-20;
 			missile1Y = turretHeight-7;
 		}
+	}	
+
+	var yhit = (26030-31*mHitX1)/42;
+	if((mHitX1>=230&&mHitX1<=650)&&(yhit-mHitY1<20)){//condition if the missile hits the left hill 
+		if(weapon1=="Single Shot"){
+			shot1X = turretWidth-20;
+			shot1Y = turretHeight-7;
+		}
+		else{
+			missile1X = turretWidth-20;
+			missile1Y = turretHeight-7;
+		}
+		if(power1==1){
+			expshort.play();
+		}
+		else if(power1==2){
+			expmed.play();
+		}
+		else{
+			exphuge.play();
+		}
+		//Removing restriction on user to change the values
+		fire1=false;
+		move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;
+		playerActive=2;
+	}
+
+	var yhit = (-16500+34*mHitX1)/40;
+	if((mHitX1>=650&&mHitX1<=1050)&&((yhit-mHitY1)<20)){//condition if the missile hits the right hill 
+		if(weapon1=="Single Shot"){
+			shot1X = turretWidth-20;
+			shot1Y = turretHeight-7;
+		}
+		else{
+			missile1X = turretWidth-20;
+			missile1Y = turretHeight-7;
+		}
+		if(power1==1){
+			expshort.play();
+		}
+		else if(power1==2){
+			expmed.play();
+		}
+		else{
+			exphuge.play();
+		}
+		//Removing restriction on user to change the values
+		fire1=false;
+		move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;
+		playerActive=2;
 	}
 }
 
@@ -541,6 +601,62 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
 			gameOver=true;
 		}
+	}
+
+	var yhit = (26030-31*mHitX2)/42;
+	if((mHitX2>=230&&mHitX2<=650)&&((yhit-mHitY2)<20)){//condition if the missile hits the left hill 
+		if(weapon2=="Single Shot"){
+			shot2X = turretWidth-20;
+			shot2Y = turretHeight-7;
+		}
+		else{
+			missile2X = turretWidth-20;
+			missile2Y = turretHeight-7;
+		}
+		if(power2==1){
+			expshort.play();
+		}
+		else if(power2==2){
+			expmed.play();
+		}
+		else{
+			exphuge.play();
+		}
+		//Removing restriction on user to change the values
+		fire2=false;
+		move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;
+		playerActive=1;
+	}
+
+	var yhit = (-16500+34*mHitX2)/40;
+	if((mHitX2>=650&&mHitX2<=1050)&&((yhit-mHitY2)<20)){//condition if the missile hits the right hill 
+		if(weapon2=="Single Shot"){
+			shot2X = turretWidth-20;
+			shot2Y = turretHeight-7;
+		}
+		else{
+			missile2X = turretWidth-20;
+			missile2Y = turretHeight-7;
+		}
+		if(power2==1){
+			expshort.play();
+		}
+		else if(power2==2){
+			expmed.play();
+		}
+		else{
+			exphuge.play();
+		}
+		//Removing restriction on user to change the values
+		fire2=false;
+		move=true;
+	    angle=true;
+	    power=true;
+	    weapon=true;
+		playerActive=1;
 	}
 }
 

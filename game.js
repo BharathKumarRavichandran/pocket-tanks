@@ -30,6 +30,7 @@ var player1 = "Player 1";//Player1's name
 var player2 = "Player 2";//Player2's name
 var score1 = 0;//score of player1
 var score2 = 0;//score of player2
+var enter = false;//titlecard checker
 var pause = false;//To check whether the gameplay is in pause or not
 var quit = false;//To check whether the player wants to quit
 var gameOver = false;//To check whether the game is over
@@ -111,7 +112,11 @@ function stopAudio(audio){//Function to stop Audio from playing by passing audio
 }
 
 document.addEventListener('keydown', function(event){//EventListener function to listen to events in the document
-        	if(event.keyCode==70){//f fire button
+			if(event.keyCode==13){
+				enter=true;
+			}
+
+        	if(event.keyCode==70&&enter==true){//f fire button
         		if(playerActive==1){
 	        		if(bullets1>0&&fire1==false){
 	        			t=0;
@@ -256,7 +261,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
         	if(event.keyCode==81){//q quit
         		quit=true;
         	}
-        	if(event.keyCode==85){//u key to switch players
+        	if(event.keyCode==85&&enter==true){//u key to switch players
         		if(playerActive==1){
         			playerActive=2;
         		}
@@ -265,6 +270,25 @@ document.addEventListener('keydown', function(event){//EventListener function to
         		}
         	}
     },false);
+
+function drawTitleCard(){
+	ctx.fillStyle = "black";
+	ctx.fillRect(0,0,canvasWidth,canvasHeight);
+	ctx.fillStyle = "orange";
+	ctx.font = "bold italic 50px Trebuchet MS";
+	ctx.fillText("Pocket Tanks",500,120);
+	ctx.fillStyle = "white";
+	ctx.font = "20px Trebuchet MS";
+	ctx.fillText("Each player will have 5 bullets and 4 moves and you can change",390,200);
+	ctx.fillText("the angle of turret and the power of missile any number of times.",385,250);
+	ctx.fillStyle = "darkred";
+	ctx.font = "bold 30px Trebuchet MS";
+	ctx.fillText("Press F to fire",550,330);
+	ctx.fillStyle = "lightblue";
+	ctx.fillText("Press U to switch players",490,390);
+	ctx.fillStyle = "white";
+	ctx.fillText("Press ENTER to start the game!",450,450);
+}
 
 
 function drawAssets(){ //Function to draw Backgrounds, Buttons, Letters.
@@ -741,42 +765,46 @@ function initialise(){//Function to call other functions collectively
 
 function animation(){
 
-	initialise();//initialising functions to draw required elements over the canvas
+	if(enter==true){
 
-	if(fire1==true){
-		if(weapon1=="Single Shot"){
-			shot1Draw();
+		initialise();//initialising functions to draw required elements over the canvas
+
+		if(fire1==true){
+			if(weapon1=="Single Shot"){
+				shot1Draw();
+			}
+			else{
+				missile1Draw();
+			}
 		}
-		else{
-			missile1Draw();
-		}
-	}
-	if(fire2==true){
-		if(weapon2=="Single Shot"){
-			shot2Draw();
+		if(fire2==true){
+			if(weapon2=="Single Shot"){
+				shot2Draw();
+			}	
+			else{
+				missile2Draw();
+			}
 		}	
-		else{
-			missile2Draw();
+
+		if(pause==true){
+			pauseGameDraw();
+			return;
+		}
+		if(quit==true){
+			pause=true;
+			quitGameDraw();
+			return;
+		}
+
+		if(gameOver==true){//Gameover condition checking
+			dead.play();
+			gameOverDraw();
+			return;
 		}
 	}	
-
-	if(pause==true){
-		pauseGameDraw();
-		return;
-	}
-	if(quit==true){
-		pause=true;
-		quitGameDraw();
-		return;
-	}
-
-	if(gameOver==true){//Gameover condition checking
-		dead.play();
-		gameOverDraw();
-		return;
-	}
 
 	requestAnimationFrame(animation);
 }
 
+drawTitleCard();
 animation();

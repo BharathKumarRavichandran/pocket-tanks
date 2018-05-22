@@ -247,13 +247,13 @@ function drawAssets(){ //Function to draw Backgrounds, Buttons, Letters.
 	ctx.drawImage(angleButton,800,520,180,60);
 	ctx.drawImage(powerButton,1050,520,170,60);
 	ctx.fillStyle = "orange";
-	ctx.font = "bold 25px Arial";
+	ctx.font = "bold 25px Trebuchet MS";
 	ctx.fillText("A",65,564);
 	ctx.fillText("D",173,564);
 	ctx.fillText("F",620,600);
 	ctx.fillText("J",817,576);
 	ctx.fillText("L",953,576);
-	ctx.font = "bold 15px Arial";
+	ctx.font = "bold 15px Trebuchet MS";
 	ctx.fillText("W",420,555);
 	ctx.fillText("S",422,578);
 	ctx.fillText("N",1124,573);
@@ -262,13 +262,13 @@ function drawAssets(){ //Function to draw Backgrounds, Buttons, Letters.
 
 function drawValues(){//Function which draws move,angle,power values
 	ctx.fillStyle = "#FF0000";
-	ctx.font = "bold 22px Arial";
+	ctx.font = "bold 22px Trebuchet MS";
 
 	if(playerActive==1){
 		ctx.fillText(moves1,120,576);
-		ctx.font = "bold 17px Arial";
+		ctx.font = "bold 17px Trebuchet MS";
 		ctx.fillText(weapon1,283,568);
-		ctx.font = "bold 22px Arial";
+		ctx.font = "bold 22px Trebuchet MS";
 		ctx.fillText(angle1,879,575);
 		ctx.fillText(power1,1160,575);
 		if(power1==1){
@@ -285,9 +285,9 @@ function drawValues(){//Function which draws move,angle,power values
 
 	else{
 		ctx.fillText(moves2,120,576);
-		ctx.font = "bold 17px Arial";
+		ctx.font = "bold 17px Trebuchet MS";
 		ctx.fillText(weapon2,283,568);
-		ctx.font = "bold 22px Arial";
+		ctx.font = "bold 22px Trebuchet MS";
 		ctx.fillText(angle2,879,575);
 		ctx.fillText(power2,1160,575);
 		if(power2==1){

@@ -64,7 +64,9 @@ var mHitX1;//X-Coordinate of missile1's end tip
 var mHitY1;//Y-Coordinate of missile1's end tip
 var mHitX2;//X-Coordinate of missile2's end tip
 var mHitY2;//Y-Coordinate of missile2's end tip
-
+var yHit;
+var blastRadius = 12;//Radius of destruction of hill
+var hillDamageArray = new Array();//Array to store objects of hill damage data
 var t=0;//Variable to keep track of time from launching of shots/missiles
 
 var bg1 = new Image();
@@ -81,6 +83,7 @@ var missile = new Image();
 var shot = new Image();
 var blastImg = new Image();
 var missileVert = new Image();
+var explosionImage = new Image();
 
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
@@ -96,6 +99,7 @@ missile.src = "assets/bazooka.png";
 shot.src = "assets/projectiles/shot.png";
 blastImg.src = "assets/bazooka_0_574.png";
 missileVert.src = "assets/bazookaVert.png";
+explosionImage.src = "assets/explosion_PNG15395.png";
 
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 var shotFired = new Audio("audio/cannon.wav");
@@ -109,6 +113,17 @@ var weaponChange = new Audio("audio/load.mp3");
 function stopAudio(audio){//Function to stop Audio from playing by passing audio variable_name
     audio.pause();
     audio.currentTime = 0;
+}
+
+function clearCircle(x,y,radius,theta1,theta2) {
+	ctx.fillStyle = "grey";
+	ctx.save();
+	ctx.beginPath();
+	ctx.arc(x,y,radius,theta1, theta2, true);
+	ctx.clip();
+	ctx.fillRect(x-radius,y-radius,radius*2,radius*2);
+	ctx.restore();
+	ctx.fillStyle = "white";
 }
 
 document.addEventListener('keydown', function(event){//EventListener function to listen to events in the document
@@ -468,6 +483,12 @@ function shot2Draw(){
 	missileHitCheck2();
 }
 
+function hillDamage(x,y,side){
+	this.x=x;
+	this.y=y;
+	this.side=side;
+}
+
 function missileHitCheck1(){//Function to check whether the missile1 hits the tank2
 	if(((mHitX1>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){//condition if the missile hits the tank
 		if(weapon1=="Single Shot"){
@@ -496,6 +517,10 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=2;
+
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
 	}
 
 	if(mHitX1>canvasWidth||mHitY1<0||mHitX1<0||mHitY1>canvasHeight){//condition if the missile goes out of the canvas
@@ -514,10 +539,16 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 			missile1X = turretWidth-20;
 			missile1Y = turretHeight-7;
 		}
+
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
 	}	
 
-	var yhit = (26030-31*mHitX1)/42;
+	yhit = (26030-31*mHitX1)/42;
 	if((mHitX1>=230&&mHitX1<=650)&&(yhit-mHitY1<20)){//condition if the missile hits the left hill 
+		hillDamageArray.push(new hillDamage(mHitX1+20,mHitY1,"left"));	
+
 		if(weapon1=="Single Shot"){
 			shot1X = turretWidth-20;
 			shot1Y = turretHeight-7;
@@ -542,10 +573,15 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=2;
+
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
 	}
 
-	var yhit = (-16500+34*mHitX1)/40;
+	yhit = (-16500+34*mHitX1)/40;
 	if((mHitX1>=650&&mHitX1<=1050)&&((yhit-mHitY1)<20)){//condition if the missile hits the right hill 
+		hillDamageArray.push(new hillDamage(mHitX1+20,mHitY1,"right"));
 		if(weapon1=="Single Shot"){
 			shot1X = turretWidth-20;
 			shot1Y = turretHeight-7;
@@ -570,6 +606,10 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=2;
+
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
 	}
 }
 
@@ -601,6 +641,7 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=1;
+
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
 			gameOver=true;
 		}
@@ -627,8 +668,9 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		}
 	}
 
-	var yhit = (26030-31*mHitX2)/42;
+	yhit = (26030-31*mHitX2)/42;
 	if((mHitX2>=230&&mHitX2<=650)&&((yhit-mHitY2)<20)){//condition if the missile hits the left hill 
+		hillDamageArray.push(new hillDamage(mHitX2+20,mHitY2,"left"));
 		if(weapon2=="Single Shot"){
 			shot2X = turretWidth-20;
 			shot2Y = turretHeight-7;
@@ -653,10 +695,15 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=1;
+
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
 	}
 
-	var yhit = (-16500+34*mHitX2)/40;
+	yhit = (-16500+34*mHitX2)/40;
 	if((mHitX2>=650&&mHitX2<=1050)&&((yhit-mHitY2)<20)){//condition if the missile hits the right hill 
+		hillDamageArray.push(new hillDamage(mHitX2-24,mHitY2,"right"));
 		if(weapon2=="Single Shot"){
 			shot2X = turretWidth-20;
 			shot2Y = turretHeight-7;
@@ -681,6 +728,10 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	    power=true;
 	    weapon=true;
 		playerActive=1;
+
+		if(bullets1==0&&bullets2==0){//gameOver checking condition
+			gameOver=true;
+		}
 	}
 }
 
@@ -768,6 +819,16 @@ function animation(){
 	if(enter==true){
 
 		initialise();//initialising functions to draw required elements over the canvas
+
+		for(i=0;i<hillDamageArray.length;i++){//to draw blast arc, explosionImage at explosion spots
+			if(hillDamageArray[i].side=="left"){
+				clearCircle(hillDamageArray[i].x,hillDamageArray[i].y,blastRadius,Math.PI-36.43*Math.PI/180,2*Math.PI-36.43*Math.PI/180);
+			}
+			else{
+				clearCircle(hillDamageArray[i].x,hillDamageArray[i].y,blastRadius,-20-40.36*Math.PI/180,-2*Math.PI/180+Math.PI-139.64*Math.PI/180);		
+			}
+			ctx.drawImage(explosionImage,hillDamageArray[i].x-20,hillDamageArray[i].y-25,45,45);
+		}
 
 		if(fire1==true){
 			if(weapon1=="Single Shot"){

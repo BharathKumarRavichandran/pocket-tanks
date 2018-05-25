@@ -356,6 +356,9 @@ function drawTitleCard(){
 	ctx.font = "20px Trebuchet MS";
 	ctx.fillText("Each player will have 5 bullets and 4 moves and you can change",390,200);
 	ctx.fillText("the angle of turret and the power of missile any number of times.",385,250);
+	ctx.fillStyle = "yellow";
+	ctx.fillText("Single Shot Points: 15",290,300);
+	ctx.fillText("Missile Points: 20",880,300);
 	ctx.fillStyle = "darkred";
 	ctx.font = "bold 30px Trebuchet MS";
 	ctx.fillText("Press F to fire",550,330);

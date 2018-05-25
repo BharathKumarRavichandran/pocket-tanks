@@ -483,8 +483,7 @@ function shot1Draw(){
 	ctx.translate(tank1X+37,tank1Y+6);
 	ctx.rotate(-1*missile1Angle*Math.PI/180);
 	ctx.drawImage(shot,shot1X,shot1Y,shotWidth,shotHeight);
-	mHitX1 = tank1X+37 + Math.cos(-1*missile1Angle*Math.PI/180)*shot1X;
-	mHitY1 = tank1Y+6 + Math.sin(-1*missile1Angle*Math.PI/180)*shot1Y;
+	
 	/*mHitX1 = tank1X+shot1X-40;
 	mHitY1 = tank1Y+shot1Y-50;*/
 	time = time + inc;
@@ -498,8 +497,11 @@ function shot1Draw(){
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.1;
 	ctx.restore();
-	//return new PVector(x + cos(r) * b, y + sin(r) * b);
+	mHitX1 = tank1X+37 + Math.cos(-1*missile1Angle*Math.PI/180)*shot1X;
+	mHitY1 = tank1Y+6 + Math.sin(-1*missile1Angle*Math.PI/180)*shot1Y;
 	ctx.fillRect(mHitX1,mHitY1,10,10);
+	//return new PVector(x + cos(r) * b, y + sin(r) * b);
+
 	console.log(mHitX1,mHitY1);
 	
 	//missileHitCheck1();
@@ -530,7 +532,7 @@ function missile2Draw(){//Function which draws the missile launched from tank2
     velocityy = velocityy + gravity*inc*0.01;
     mHitX2=missile2X;
     mHitY2=missile2Y;
-    //missileHitCheck2();
+    missileHitCheck2();
 }
 
 function shot2Draw(){
@@ -559,7 +561,7 @@ function shot2Draw(){
     velocityy = velocityy + gravity*inc*0.01;
     mHitX2=shot2X;
     mHitY2=shot2Y;
-	//missileHitCheck2();
+	missileHitCheck2();
 }
 
 function hillDamage(x,y,side){
@@ -625,8 +627,8 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	}	
 
 
-	yhit = (26030-31*mHitX1)/42;
-	if((mHitX1>=230&&mHitX1<=650)&&(yhit-mHitY1<20)){//condition if the missile hits the left hill 
+	yhit = (16450-13*mHitX1)/25;
+	if((mHitX1>=400&&mHitX1<=650)&&(yhit-mHitY1<20)){//condition if the missile hits the left hill 
 		hillDamageArray.push(new hillDamage(mHitX1+20,mHitY1,"left"));	
 
 		if(weapon1=="Single Shot"){
@@ -659,8 +661,8 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 		}
 	}
 
-	yhit = (-16500+34*mHitX1)/40;
-	if((mHitX1>=650&&mHitX1<=1050)&&((yhit-mHitY1)<20)){//condition if the missile hits the right hill 
+	yhit = (-700+8*mHitX1)/15;
+	if((mHitX1>=650&&mHitX1<=950)&&((yhit-mHitY1)<20)){//condition if the missile hits the right hill 
 		hillDamageArray.push(new hillDamage(mHitX1+20,mHitY1,"right"));
 		if(weapon1=="Single Shot"){
 			shot1X = turretWidth-20;
@@ -749,8 +751,8 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		}
 	}
 
-	yhit = (26030-31*mHitX2)/42;
-	if((mHitX2>=230&&mHitX2<=650)&&((yhit-mHitY2)<20)){//condition if the missile hits the left hill 
+	yhit = (16450-13*mHitX2)/25;
+	if((mHitX2>=400&&mHitX2<=650)&&((yhit-mHitY2)<20)){//condition if the missile hits the left hill 
 		hillDamageArray.push(new hillDamage(mHitX2+20,mHitY2,"left"));
 		if(weapon2=="Single Shot"){
 			shot2X = turretWidth-20;
@@ -782,9 +784,9 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		}
 	}
 
-	yhit = (-16500+34*mHitX2)/40;
-	if((mHitX2>=650&&mHitX2<=1050)&&((yhit-mHitY2)<20)){//condition if the missile hits the right hill 
-		hillDamageArray.push(new hillDamage(mHitX2-24,mHitY2,"right"));
+	yhit = (-700+8*mHitX2)/15;
+	if((mHitX2>=650&&mHitX2<=950)&&((yhit-mHitY2)<20)){//condition if the missile hits the right hill 
+		hillDamageArray.push(new hillDamage(mHitX2-44,mHitY2,"right"));
 		if(weapon2=="Single Shot"){
 			shot2X = turretWidth-20;
 			shot2Y = turretHeight-7;

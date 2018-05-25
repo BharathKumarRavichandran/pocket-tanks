@@ -23,7 +23,7 @@ var moves2 = 4;//moves left for player2
 var weapon1 = "Single Shot";//Weapon selected by player1
 var weapon2 = "Single Shot";//Weapon selected by player2
 var angle1 = 30;//Angle of turret of tank1
-var angle2 = 30;//Angle of turret of tank2
+var angle2 = 25;//Angle of turret of tank2
 var power1 = 1;//Power of missile launched by tank1
 var power2 = 1;//Power of missile launched by tank2
 var player1 = "Player 1";//Player1's name
@@ -71,6 +71,10 @@ var hillDamageArray = new Array();//Array to store objects of hill damage data
 var gravity = 7;
 var time = 0;
 var inc = 0.5;
+var velocity = 13+2*power1;
+var Angle = (missile1Angle*(Math.PI)/180);
+var velocityx = velocity*Math.cos(Angle);
+var velocityy = velocity*Math.sin(Angle)*-1;
 
 var bg1 = new Image();
 var bg2 = new Image();
@@ -146,7 +150,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
 	        			else if(power1==2){
 	        				velocity = 15;
 	        			}
-	        			else if(power3==3){
+	        			else if(power1==3){
 	        				velocity = 20;
 	        			}
 						var Angle = (angle1*(Math.PI)/180);
@@ -216,13 +220,13 @@ document.addEventListener('keydown', function(event){//EventListener function to
             		if(playerActive==1){
 						if(moves1>0){
 							moves1--;
-							tank1X-=10;
+							tank1X-=20;
 						}
 					}
 					else{
 						if(moves2>0){
 							moves2--;
-							tank2X-=10;
+							tank2X-=20;
 						}
 			        }
 			}
@@ -230,13 +234,13 @@ document.addEventListener('keydown', function(event){//EventListener function to
 				if(playerActive==1){
 					if(moves1>0){
 						moves1--;
-						tank1X+=10;
+						tank1X+=20;
 					}
 				}
 				else{
 					if(moves2>0){
 						moves2--;
-						tank2X+=10;
+						tank2X+=20;
 					}
 				}
             }
@@ -474,65 +478,77 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 	
 }
 
-var velocity = 13+2*power1;
-var Angle = (missile1Angle*(Math.PI)/180);
-var velocityx = velocity*Math.cos(Angle);
-var velocityy = velocity*Math.sin(Angle)*-1;
-
 function shot1Draw(){
 	ctx.save();
 	ctx.translate(tank1X+37,tank1Y+6);
 	ctx.rotate(-1*missile1Angle*Math.PI/180);
 	ctx.drawImage(shot,shot1X,shot1Y,shotWidth,shotHeight);
+	mHitX1 = tank1X+37 + Math.cos(-1*missile1Angle*Math.PI/180)*shot1X;
+	mHitY1 = tank1Y+6 + Math.sin(-1*missile1Angle*Math.PI/180)*shot1Y;
+	/*mHitX1 = tank1X+shot1X-40;
+	mHitY1 = tank1Y+shot1Y-50;*/
 	time = time + inc;
 	if(shot1X<1000*Math.cos(Angle)){
 		shot1X = shot1X + velocityx*inc*0.9;
-	}
+			}
 	else{
 		shot1X = shot1X + velocityx*inc*0.2;
 	}
     shot1Y = shot1Y + velocityy*inc;
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.1;
-    mHitX1 = shot1X;
-	mHitY1 = shot1Y;
 	ctx.restore();
-	
+	//return new PVector(x + cos(r) * b, y + sin(r) * b);
+	ctx.fillRect(mHitX1,mHitY1,10,10);
 	console.log(mHitX1,mHitY1);
-	ctx.fillRect(tank1X+37+mHitX1,mHitY1,10,10);
+	
 	//missileHitCheck1();
 }
 
 function missile2Draw(){//Function which draws the missile launched from tank2
 	ctx.drawImage(missileInvert,missile2X,missile2Y-5,missileWidth,missileHeight);
 	time = time + inc;
-	missile2X = missile2X - velocityx*inc*0.9;
+	missile2X = missile2X - velocityx*inc*1.2;
 	missile2Y = missile2Y + velocityy*inc;
 	if(missile2X>650*Math.cos(Angle)){
 		velocityy = velocityy + gravity*inc*0.01;
-		if(angle2<15){
+		if(angle2<=15){
 			velocityy = velocityy + gravity*inc*0.2;
+		}
+
+		else if (angle2>15&&angle2<=25){
+			velocityy = velocityy + gravity*inc*0.11;
+		}
+		else if (angle2>25&&angle2<=35){
+			velocityy = velocityy + gravity*inc*0.03;
 		}
 	}
 	else{
 		velocityy = velocityy + gravity*inc*0.1;
-	}   
+	}  
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.01;
     mHitX2=missile2X;
     mHitY2=missile2Y;
-    missileHitCheck2();
+    //missileHitCheck2();
 }
 
 function shot2Draw(){
 	ctx.drawImage(shot,shot2X,shot2Y-5,shotWidth,shotHeight);
 	time = time + inc;
-	shot2X = shot2X - velocityx*inc*0.9;
+	shot2X = shot2X - velocityx*inc*1.2;
 	shot2Y = shot2Y + velocityy*inc;
 	if(shot2X>650*Math.cos(Angle)){
 		velocityy = velocityy + gravity*inc*0.01;
-		if(angle2<15){
+		if(angle2<=15){
 			velocityy = velocityy + gravity*inc*0.2;
+		}
+
+		else if (angle2>15&&angle2<=25){
+			velocityy = velocityy + gravity*inc*0.11;
+		}
+		else if (angle2>25&&angle2<=35){
+			velocityy = velocityy + gravity*inc*0.03;
 		}
 	}
 	else{
@@ -543,7 +559,7 @@ function shot2Draw(){
     velocityy = velocityy + gravity*inc*0.01;
     mHitX2=shot2X;
     mHitY2=shot2Y;
-	missileHitCheck2();
+	//missileHitCheck2();
 }
 
 function hillDamage(x,y,side){
@@ -884,7 +900,7 @@ function animation(){
 	if(enter==true){
 
 		initialise();//initialising functions to draw required elements over the canvas
-		ctx.fillRect(mHitX1,mHitY1,10,10);
+
 		for(i=0;i<hillDamageArray.length;i++){//to draw blast arc, explosionImage at explosion spots
 			if(hillDamageArray[i].side=="left"){
 				clearCircle(hillDamageArray[i].x,hillDamageArray[i].y,blastRadius,Math.PI-36.43*Math.PI/180,2*Math.PI-36.43*Math.PI/180);

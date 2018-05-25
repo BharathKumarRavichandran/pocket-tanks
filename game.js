@@ -22,7 +22,7 @@ var moves1 = 4;//moves left for player1
 var moves2 = 4;//moves left for player2
 var weapon1 = "Single Shot";//Weapon selected by player1
 var weapon2 = "Single Shot";//Weapon selected by player2
-var angle1 = 30;//Angle of turret of tank1
+var angle1 = 25;//Angle of turret of tank1
 var angle2 = 25;//Angle of turret of tank2
 var power1 = 1;//Power of missile launched by tank1
 var power2 = 1;//Power of missile launched by tank2
@@ -69,6 +69,7 @@ var yhit1;
 var blastRadius = 12;//Radius of destruction of hill
 var hillDamageArray = new Array();//Array to store objects of hill damage data
 
+//variables used in making projectile motion
 var bounce1=1;
 var bounce2=1;
 var gravity = 7;
@@ -81,6 +82,7 @@ var velocityy = velocity*Math.sin(Angle)*-1;
 var pw1;
 var pw2;
 
+//Image variables
 var bg1 = new Image();
 var bg2 = new Image();
 var fireButton = new Image();
@@ -98,6 +100,7 @@ var blastImg = new Image();
 var missileVert = new Image();
 var explosionImage = new Image();
 
+//Image variables assignment
 bg1.src = "assets/background_1.png";
 bg2.src = "assets/castle_bricks.png";
 fireButton.src = "assets/fire_button.png";
@@ -115,6 +118,7 @@ blastImg.src = "assets/bazooka_0_574.png";
 missileVert.src = "assets/bazookaVert.png";
 explosionImage.src = "assets/explosion_PNG15395.png";
 
+//Audio variables and assignment
 var gamePlayAudio = new Audio("audio/BurtBacharach.wav");
 var shotFired = new Audio("audio/cannon.wav");
 var dead = new Audio("audio/dead.wav");
@@ -141,7 +145,7 @@ function clearCircle(x,y,radius,theta1,theta2) {
 }
 
 document.addEventListener('keydown', function(event){//EventListener function to listen to events in the document
-			if(event.keyCode==13){
+			if(event.keyCode==13){//enter keyCode
 				enter=true;
 			}
 
@@ -162,16 +166,14 @@ document.addEventListener('keydown', function(event){//EventListener function to
 	        				pw1=1.8;
 	        			}
 	        			time = 0;
-						inc = 0.5;
 						velocity = 13+2*power1;
 						shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
 						shot1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 						missile1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
 						missile1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
-						var gravity = 7;
-						var Angle = (angle1*(Math.PI)/180);
-						var velocityx = velocity*Math.cos(Angle);
-						var velocityy = velocity*Math.sin(Angle)*-1;
+						Angle = (angle1*(Math.PI)/180);
+						velocityx = velocity*Math.cos(Angle);
+						velocityy = velocity*Math.sin(Angle)*-1;
 	        			shotFired.play();	
 	        			fire1=true;
 	        			bullets1--;
@@ -197,12 +199,10 @@ document.addEventListener('keydown', function(event){//EventListener function to
 	        				pw2=1.8;
 	        			}
 	        			time = 0;
-						inc = 0.5;
 						velocity = 13+2*power2;
-						var gravity = 7;
-						var Angle = (angle2*(Math.PI)/180);
-						var velocityx = velocity*Math.cos(Angle);
-						var velocityy = velocity*Math.sin(Angle)*-1;  
+						Angle = (angle2*(Math.PI)/180);
+						velocityx = velocity*Math.cos(Angle);
+						velocityy = velocity*Math.sin(Angle)*-1;  
 						shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
 						shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 						missile2X=tank2X-0.5*turretWidth*Math.cos(Angle);
@@ -490,15 +490,15 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 		}
 		else if (angle1>25&&angle1<=35){
 			velocityy = velocityy + gravity*inc*0.03;
-			bounce1=1.8;
+			bounce1=1.4;
 		}
 		else if (angle1>35&&angle1<=42){
 			velocityy = velocityy + gravity*inc*0.01;
-			bounce1=2;
+			bounce1=1.4;
 		}
 		else{
 			velocityy = velocityy - gravity*inc*0.00001;
-			bounce1=2.5;
+			bounce1=1.4;
 		}
 	}
 	else{
@@ -527,20 +527,20 @@ function shot1Draw(){//Function which draws the shot launched from tank1
 		}
 		else if (angle1>25&&angle1<=35){
 			velocityy = velocityy + gravity*inc*0.03;
-			bounce1=1.8;
+			bounce1=1.4;
 		}
 		else if (angle1>35&&angle1<=42){
 			velocityy = velocityy + gravity*inc*0.01;
-			bounce1=2;
+			bounce1=1.4;
 		}
 		else{
 			velocityy = velocityy - gravity*inc*0.00001;
-			bounce1=2.5;
+			bounce1=1.4;
 		}
 	}
 	else{
 		velocityy = velocityy + gravity*inc*0.1;
-	}  
+	} 
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.01;
 	mHitX1 = shot1X;
@@ -592,26 +592,25 @@ function shot2Draw(){//Function which draws the shot launched from tank2
 	shot2X = shot2X - velocityx*inc*pw2;
 	shot2Y = shot2Y + velocityy*inc*bounce2;
 	if(shot2X>650*Math.cos(Angle)){
-		velocityy = velocityy + gravity*inc*0.01;
+		velocityy = velocityy + gravity*inc*0.04;
 		if(angle2<=15){
 			velocityy = velocityy + gravity*inc*0.2;
 			bounce2=1;
 		}
-
 		else if (angle2>15&&angle2<=25){
 			velocityy = velocityy + gravity*inc*0.11;
-			bounce2=1.4;
+			bounce2=1.2;
 		}
 		else if (angle2>25&&angle2<=35){
 			velocityy = velocityy + gravity*inc*0.03;
-			bounce2=1.8;
+			bounce2=1.25;
 		}
 		else if (angle2>35&&angle2<=42){
 			velocityy = velocityy + gravity*inc*0.015;
-			bounce2=2.1;
+			bounce2=1.25;
 		}
 		else{
-			bounce2=2.2;
+			bounce2=1.3;
 		}
 	}
 	else{
@@ -635,13 +634,13 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	if(((mHitX1+10>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){//condition if the missile hits the tank
 		if(weapon1=="Single Shot"){
 			score1+=15;
-			shot1X = turretWidth-20;
-			shot1Y = turretHeight-7;
+			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			shot1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 		else{
 			score1+=20;
-			missile1X = turretWidth-20;
-			missile1Y = turretHeight-7;
+			missile1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			missile1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 		if(power1==1){
 			expshort.play();
@@ -674,12 +673,12 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	    weapon=true;	
 		playerActive=2;
 		if(weapon1=="Single Shot"){
-			shot1X = turretWidth-20;
-			shot1Y = turretHeight-7;
+			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			shot1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 		else{
-			missile1X = turretWidth-20;
-			missile1Y = turretHeight-7;
+			missile1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			missile1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
@@ -694,12 +693,12 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 		hillDamageArray.push(new hillDamage(mHitX1+10,mHitY1,"left"));	
 
 		if(weapon1=="Single Shot"){
-			shot1X = turretWidth-20;
-			shot1Y = turretHeight-7;
+			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			shot1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 		else{
-			missile1X = turretWidth-20;
-			missile1Y = turretHeight-7;
+			missile1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			missile1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 		if(power1==1){
 			expshort.play();
@@ -728,12 +727,12 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	if(((mHitX1>=650&&mHitX1<=950)&&((yhit-mHitY1)<20))||((mHitX1>=950&&mHitX1<=1115)&&((yhit1+mHitY1)>5))){//condition if the missile hits the right hill 
 		hillDamageArray.push(new hillDamage(mHitX1-10,mHitY1+12,"right"));
 		if(weapon1=="Single Shot"){
-			shot1X = turretWidth-20;
-			shot1Y = turretHeight-7;
+			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			shot1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 		else{
-			missile1X = turretWidth-20;
-			missile1Y = turretHeight-7;
+			missile1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
+			missile1Y=tank1Y-turretWidth*Math.sin(angle1*Math.PI/180);
 		}
 		if(power1==1){
 			expshort.play();
@@ -759,16 +758,16 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 }
 
 function missileHitCheck2(){//Function to check whether the missile2 hits the tank1
-	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){//condition if the missile hits the tank
+	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth+10))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){//condition if the missile hits the tank
 		if(weapon2=="Single Shot"){
 			score2+=15;
-			shot2X = turretWidth-20;
-			shot2Y = turretHeight-7;
+			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		else{
 			score2+=20;
-			missile2X = turretWidth-20;
-			missile2Y = turretHeight-7;
+			missile2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			missile2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		if(power2==1){
 			expshort.play();
@@ -801,12 +800,12 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	    weapon=true;
 		playerActive=1;
 		if(weapon2=="Single Shot"){
-			shot2X = turretWidth-20;
-			shot2Y = turretHeight-7;
+			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		else{
-			missile2X = turretWidth-20;
-			missile2Y = turretHeight-7;
+			missile2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			missile2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
 			gameOver=true;
@@ -818,12 +817,12 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	if(((mHitX2>=400&&mHitX2<=650)&&((yhit-mHitY2)<5))||((mHitX2>=153&&mHitX2<=400)&&((yhit1-mHitY2)<2))){//condition if the missile hits the left hill 
 		hillDamageArray.push(new hillDamage(mHitX2+20,mHitY2-13,"left"));
 		if(weapon2=="Single Shot"){
-			shot2X = turretWidth-20;
-			shot2Y = turretHeight-7;
+			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		else{
-			missile2X = turretWidth-20;
-			missile2Y = turretHeight-7;
+			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		if(power2==1){
 			expshort.play();
@@ -852,12 +851,12 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 	if(((mHitX2>=650&&mHitX2<=950)&&((yhit-mHitY2)<5))||((mHitX2>=950&&mHitX2<=1115)&&((yhit1+mHitY2)>5))){//condition if the missile hits the right hill
 		hillDamageArray.push(new hillDamage(mHitX2-44,mHitY2,"right"));
 		if(weapon2=="Single Shot"){
-			shot2X = turretWidth-20;
-			shot2Y = turretHeight-7;
+			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		else{
-			missile2X = turretWidth-20;
-			missile2Y = turretHeight-7;
+			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
 		}
 		if(power2==1){
 			expshort.play();

@@ -17,3 +17,19 @@ html{
 #canvas{
 	background: white;
 }
+
+#foot{
+	color: white;
+	text-align: center;
+	font-size: 18px;
+	letter-spacing: 4px;
+}
+
+#heart{
+	color: red;
+}
+
+#nameLink{
+	text-decoration: none;
+	color: orange;
+}

@@ -10,6 +10,14 @@ var w2 = screenWidth*0.07;
 document.getElementById("title").style.marginLeft = w1+"px";//Aligning title in the centre by manipulating margin-left property
 canvas.style.marginLeft = w2+"px";//Aligning canvas in the centre by manipulating margin-left property
 
+//Co-ordinates randomly generated to produce the hill
+var x1=350+Math.random()*50;
+var y1=450-Math.random()*50;
+var x2=650+Math.random()*70;
+var y2=320-Math.random()*100;
+var x3=1050+Math.random()*30;
+var y3=480-Math.random()*20;
+
 var tankWidth = 80;
 var tankHeight = 50;
 var turretWidth = 60;
@@ -438,9 +446,9 @@ function drawHill(){//Function which draws the hill in between the tanks
 	ctx.strokeStyle = "green";
 	ctx.fillStyle = "darkgreen";
 	ctx.moveTo(30,baseY);
-	ctx.bezierCurveTo(100,470,160,520,400,450);
-	ctx.lineTo(650,320);
-	ctx.lineTo(950,480);
+	ctx.bezierCurveTo(100,470,160,520,x1,y1);
+	ctx.lineTo(x2,y2);
+	ctx.lineTo(x3,y3);
 	ctx.bezierCurveTo(1150,490, 1200,480,canvasWidth-30,baseY);
 	ctx.closePath();
 	ctx.stroke();
@@ -514,7 +522,7 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 function shot1Draw(){//Function which draws the shot launched from tank1
 	ctx.drawImage(shot,shot1X,shot1Y,shotWidth,shotHeight);
     time = time + inc;
-	shot1X = shot1X + velocityx*inc*pw1*1.4;
+	shot1X = shot1X + velocityx*inc*pw1*1.19;
 	shot1Y = shot1Y + velocityy*inc*bounce1;
 	if(shot1X<650*Math.cos(angle1*Math.PI/180)){
 		if(angle1<=15){
@@ -631,7 +639,7 @@ function hillDamage(x,y,side){
 }
 
 function missileHitCheck1(){//Function to check whether the missile1 hits the tank2
-	if(((mHitX1+10>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){//condition if the missile hits the tank
+	if(((mHitX1+10>=tank2X)&&(mHitX1<=tank2X+tankWidth))&&((mHitY1>=tank2Y-8)&&(mHitY1<=tank2Y+tankHeight))){//condition if the missile/shot hits the tank
 		if(weapon1=="Single Shot"){
 			score1+=15;
 			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
@@ -664,7 +672,7 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 		}
 	}
 
-	if(mHitX1>canvasWidth||mHitY1<0||mHitX1<0||mHitY1>canvasHeight){//condition if the missile goes out of the canvas
+	if(mHitX1>canvasWidth||mHitY1<0||mHitX1<0||mHitY1>canvasHeight){//condition if the missile/shot goes out of the canvas
 		//Removing restriction on user to change the values
 		fire1=false;
 	    move=true;
@@ -687,10 +695,10 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	}	
 
 
-	yhit = (16450-13*mHitX1)/25;
+	yhit = y1+((y2-y1)*(mHitX1-x1)/(x2-x1));
 	yhit1 = (-33*mHitX1+124350)/247;
-	if(((mHitX1>=400&&mHitX1<=650)&&((yhit-mHitY1)<20))||((mHitX1>=153&&mHitX1<=400)&&((yhit1-mHitY1)<20))){//condition if the missile hits the left hill 
-		hillDamageArray.push(new hillDamage(mHitX1+10,mHitY1,"left"));	
+	if(((mHitX1>=400&&mHitX1<=650)&&((yhit-mHitY1)<20))||((mHitX1>=153&&mHitX1<=400)&&((yhit1-mHitY1)<20))){//condition if the missile/shot hits the left hill 
+		hillDamageArray.push(new hillDamage(mHitX1+15,mHitY1,"left"));	
 
 		if(weapon1=="Single Shot"){
 			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
@@ -722,9 +730,9 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 		}
 	}
 
-	yhit = (-700+8*mHitX1)/15;
+	yhit = y2+((y3-y2)*(mHitX1-x2)/(x3-x2));
 	yhit1 = (3*mHitX1-81150)/175;
-	if(((mHitX1>=650&&mHitX1<=950)&&((yhit-mHitY1)<20))||((mHitX1>=950&&mHitX1<=1115)&&((yhit1+mHitY1)>5))){//condition if the missile hits the right hill 
+	if(((mHitX1>=650&&mHitX1<=950)&&((yhit-mHitY1)<20))||((mHitX1>=950&&mHitX1<=1115)&&((yhit1+mHitY1)>5))){//condition if the missile/shot hits the right hill 
 		hillDamageArray.push(new hillDamage(mHitX1-10,mHitY1+12,"right"));
 		if(weapon1=="Single Shot"){
 			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
@@ -758,7 +766,7 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 }
 
 function missileHitCheck2(){//Function to check whether the missile2 hits the tank1
-	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth+10))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){//condition if the missile hits the tank
+	if(((mHitX2>=tank1X)&&(mHitX2<=tank1X+tankWidth+10))&&((mHitY2>=tank1Y-8)&&(mHitY2<=tank1Y+tankHeight))){//condition if the missile/shot hits the tank
 		if(weapon2=="Single Shot"){
 			score2+=15;
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
@@ -791,7 +799,7 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		}
 	}
 
-	if(mHitX2<0||mHitY2<0||mHitX2>canvasWidth||mHitY2>canvasHeight){//condition if the missile goes out of the canvas
+	if(mHitX2<0||mHitY2<0||mHitX2>canvasWidth||mHitY2>canvasHeight){//condition if the missile/shot goes out of the canvas
 		//Removing restriction on user to change the values
 		fire2=false;
 		move=true;
@@ -812,9 +820,9 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		}
 	}
 
-	yhit = (16450-13*mHitX2)/25;
+	yhit = y1+((y2-y1)*(mHitX2-x1)/(x2-x1));
 	yhit1 = (-33*mHitX2+124350)/247;
-	if(((mHitX2>=400&&mHitX2<=650)&&((yhit-mHitY2)<5))||((mHitX2>=153&&mHitX2<=400)&&((yhit1-mHitY2)<2))){//condition if the missile hits the left hill 
+	if(((mHitX2>=400&&mHitX2<=650)&&((yhit-mHitY2)<5))||((mHitX2>=153&&mHitX2<=400)&&((yhit1-mHitY2)<2))){//condition if the missile/shot hits the left hill 
 		hillDamageArray.push(new hillDamage(mHitX2+20,mHitY2-13,"left"));
 		if(weapon2=="Single Shot"){
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
@@ -846,10 +854,10 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		}
 	}
 
-	yhit = (-700+8*mHitX2)/15;
+	yhit = y2+((y3-y2)*(mHitX2-x2)/(x3-x2));
 	yhit1 = (3*mHitX2-81150)/175;
-	if(((mHitX2>=650&&mHitX2<=950)&&((yhit-mHitY2)<5))||((mHitX2>=950&&mHitX2<=1115)&&((yhit1+mHitY2)>5))){//condition if the missile hits the right hill
-		hillDamageArray.push(new hillDamage(mHitX2-44,mHitY2,"right"));
+	if(((mHitX2>=650&&mHitX2<=950)&&((yhit-mHitY2)<5))||((mHitX2>=950&&mHitX2<=1115)&&((yhit1+mHitY2)>5))){//condition if the missile/shot hits the right hill
+		hillDamageArray.push(new hillDamage(mHitX2-17,mHitY2,"right"));
 		if(weapon2=="Single Shot"){
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
 			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   

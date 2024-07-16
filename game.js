@@ -7,8 +7,8 @@ var canvasWidth = canvas.getAttribute("width");
 var canvasHeight = canvas.getAttribute("height");
 var w1 = (screenWidth/2) - screenWidth*0.1;;
 var w2 = screenWidth*0.07;
-document.getElementById("title").style.marginLeft = w1+"px";//Aligning title in the centre by manipulating margin-left property
-canvas.style.marginLeft = w2+"px";//Aligning canvas in the centre by manipulating margin-left property
+//document.getElementById("title").style.marginLeft = w1+"px";//Aligning title in the centre by manipulating margin-left property
+//canvas.style.marginLeft = w2+"px";//Aligning canvas in the centre by manipulating margin-left property
 
 //Co-ordinates randomly generated to produce the hill
 var x1=350+Math.random()*50;
@@ -68,7 +68,7 @@ var shot1X = missile1X;
 var shot1Y = missile1Y;
 var shot2X = missile2X;
 var shot2Y = missile2Y;
-var mHitX1;//X-Coordinate of missile1's end tip 
+var mHitX1;//X-Coordinate of missile1's end tip
 var mHitY1;//Y-Coordinate of missile1's end tip
 var mHitX2;//X-Coordinate of missile2's end tip
 var mHitY2;//Y-Coordinate of missile2's end tip
@@ -182,14 +182,14 @@ document.addEventListener('keydown', function(event){//EventListener function to
 						Angle = (angle1*(Math.PI)/180);
 						velocityx = velocity*Math.cos(Angle);
 						velocityy = velocity*Math.sin(Angle)*-1;
-	        			shotFired.play();	
+	        			shotFired.play();
 	        			fire1=true;
 	        			bullets1--;
 	        			move=false;
 	        			angle=false;
 	        			power=false;
 	        			weapon=false;
-	        		}	
+	        		}
         		}
         		else{
         			if(bullets2>0&&fire2==false){
@@ -210,11 +210,11 @@ document.addEventListener('keydown', function(event){//EventListener function to
 						velocity = 13+2*power2;
 						Angle = (angle2*(Math.PI)/180);
 						velocityx = velocity*Math.cos(Angle);
-						velocityy = velocity*Math.sin(Angle)*-1;  
+						velocityy = velocity*Math.sin(Angle)*-1;
 						shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
 						shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 						missile2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-						missile2Y=tank2Y-turretWidth*Math.sin(Angle);      				
+						missile2Y=tank2Y-turretWidth*Math.sin(Angle);
         				shotFired.play();
         				fire2=true;
         				bullets2--;
@@ -261,7 +261,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
 						}
 			        }
 			}
-            if(event.keyCode==68&&move==true){//d tank move right	
+            if(event.keyCode==68&&move==true){//d tank move right
 				if(playerActive==1){
 					if(moves1>0){
 						moves1--;
@@ -329,7 +329,7 @@ document.addEventListener('keydown', function(event){//EventListener function to
         			pause=true;
         		}
         		else{
-        			pause=false;	
+        			pause=false;
         			animation();
         		}
         		if(quit==true&&pause==true){
@@ -357,10 +357,16 @@ document.addEventListener('keydown', function(event){//EventListener function to
 function drawTitleCard(){
 	ctx.fillStyle = "black";
 	ctx.fillRect(0,0,canvasWidth,canvasHeight);
-	ctx.fillStyle = "orange";
+
+    ctx.fillStyle = "orange";
 	ctx.font = "bold italic 50px Trebuchet MS";
-	ctx.fillText("Pocket Tanks",500,120);
-	ctx.fillStyle = "white";
+	ctx.fillText("Pocket Tanks", 490, 120);
+
+    ctx.fillStyle = "orange";
+	ctx.font = "bold italic 15px Trebuchet MS";
+	ctx.fillText("Created in 2018",700, 150);
+
+    ctx.fillStyle = "white";
 	ctx.font = "20px Trebuchet MS";
 	ctx.fillText("Each player will have 5 bullets and 4 moves and you can change",390,200);
 	ctx.fillText("the angle of turret and the power of missile any number of times.",385,250);
@@ -417,7 +423,7 @@ function drawValues(){//Function which draws move,angle,power values
 			ctx.fillRect(1061.5,530,75,15);
 		}
 		if(power1==3){
-			ctx.fillRect(1061.5,530,150,15);	
+			ctx.fillRect(1061.5,530,150,15);
 		}
 
 	}
@@ -436,7 +442,7 @@ function drawValues(){//Function which draws move,angle,power values
 			ctx.fillRect(1061.5,530,75,15);
 		}
 		if(power2==3){
-			ctx.fillRect(1061.5,530,150,15);	
+			ctx.fillRect(1061.5,530,150,15);
 		}
 	}
 }
@@ -511,11 +517,11 @@ function missile1Draw(){//Function which draws the missile launched from tank1
 	}
 	else{
 		velocityy = velocityy + gravity*inc*0.1;
-	}  
+	}
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.01;
 	mHitX1 = missile1X;
-	mHitY1 = missile1Y;	
+	mHitY1 = missile1Y;
 	missileHitCheck1();
 }
 
@@ -548,11 +554,11 @@ function shot1Draw(){//Function which draws the shot launched from tank1
 	}
 	else{
 		velocityy = velocityy + gravity*inc*0.1;
-	} 
+	}
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.01;
 	mHitX1 = shot1X;
-	mHitY1 = shot1Y;	
+	mHitY1 = shot1Y;
 	missileHitCheck1();
 }
 
@@ -586,7 +592,7 @@ function missile2Draw(){//Function which draws the missile launched from tank2
 	}
 	else{
 		velocityy = velocityy + gravity*inc*0.1;
-	}  
+	}
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.01;
     mHitX2=missile2X;
@@ -624,7 +630,7 @@ function shot2Draw(){//Function which draws the shot launched from tank2
 	else{
 		velocityy = velocityy + gravity*inc*0.1;
 	}
-    
+
     velocityx = velocityx;
     velocityy = velocityy + gravity*inc*0.01;
     mHitX2=shot2X;
@@ -678,7 +684,7 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 	    move=true;
 	    angle=true;
 	    power=true;
-	    weapon=true;	
+	    weapon=true;
 		playerActive=2;
 		if(weapon1=="Single Shot"){
 			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
@@ -692,13 +698,13 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
 			gameOver=true;
 		}
-	}	
+	}
 
 
 	yhit = y1+((y2-y1)*(mHitX1-x1)/(x2-x1));
 	yhit1 = (-33*mHitX1+124350)/247;
-	if(((mHitX1>=400&&mHitX1<=650)&&((yhit-mHitY1)<20))||((mHitX1>=153&&mHitX1<=400)&&((yhit1-mHitY1)<20))){//condition if the missile/shot hits the left hill 
-		hillDamageArray.push(new hillDamage(mHitX1+15,mHitY1,"left"));	
+	if(((mHitX1>=400&&mHitX1<=650)&&((yhit-mHitY1)<20))||((mHitX1>=153&&mHitX1<=400)&&((yhit1-mHitY1)<20))){//condition if the missile/shot hits the left hill
+		hillDamageArray.push(new hillDamage(mHitX1+15,mHitY1,"left"));
 
 		if(weapon1=="Single Shot"){
 			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
@@ -732,7 +738,7 @@ function missileHitCheck1(){//Function to check whether the missile1 hits the ta
 
 	yhit = y2+((y3-y2)*(mHitX1-x2)/(x3-x2));
 	yhit1 = (3*mHitX1-81150)/175;
-	if(((mHitX1>=650&&mHitX1<=950)&&((yhit-mHitY1)<20))||((mHitX1>=950&&mHitX1<=1115)&&((yhit1+mHitY1)>5))){//condition if the missile/shot hits the right hill 
+	if(((mHitX1>=650&&mHitX1<=950)&&((yhit-mHitY1)<20))||((mHitX1>=950&&mHitX1<=1115)&&((yhit1+mHitY1)>5))){//condition if the missile/shot hits the right hill
 		hillDamageArray.push(new hillDamage(mHitX1-10,mHitY1+12,"right"));
 		if(weapon1=="Single Shot"){
 			shot1X=tank1X+37+turretWidth*Math.cos(angle1*Math.PI/180);
@@ -770,12 +776,12 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		if(weapon2=="Single Shot"){
 			score2+=15;
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		else{
 			score2+=20;
 			missile2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			missile2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			missile2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		if(power2==1){
 			expshort.play();
@@ -809,11 +815,11 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		playerActive=1;
 		if(weapon2=="Single Shot"){
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		else{
 			missile2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			missile2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			missile2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		if(bullets1==0&&bullets2==0){//gameOver checking condition
 			gameOver=true;
@@ -822,15 +828,15 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 
 	yhit = y1+((y2-y1)*(mHitX2-x1)/(x2-x1));
 	yhit1 = (-33*mHitX2+124350)/247;
-	if(((mHitX2>=400&&mHitX2<=650)&&((yhit-mHitY2)<5))||((mHitX2>=153&&mHitX2<=400)&&((yhit1-mHitY2)<2))){//condition if the missile/shot hits the left hill 
+	if(((mHitX2>=400&&mHitX2<=650)&&((yhit-mHitY2)<5))||((mHitX2>=153&&mHitX2<=400)&&((yhit1-mHitY2)<2))){//condition if the missile/shot hits the left hill
 		hillDamageArray.push(new hillDamage(mHitX2+20,mHitY2-13,"left"));
 		if(weapon2=="Single Shot"){
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		else{
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		if(power2==1){
 			expshort.play();
@@ -860,11 +866,11 @@ function missileHitCheck2(){//Function to check whether the missile2 hits the ta
 		hillDamageArray.push(new hillDamage(mHitX2-17,mHitY2,"right"));
 		if(weapon2=="Single Shot"){
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		else{
 			shot2X=tank2X-0.5*turretWidth*Math.cos(Angle);
-			shot2Y=tank2Y-turretWidth*Math.sin(Angle);   
+			shot2Y=tank2Y-turretWidth*Math.sin(Angle);
 		}
 		if(power2==1){
 			expshort.play();
@@ -894,14 +900,14 @@ function playerDataDraw(){//Function which draws the players score,pause,quit bu
 	ctx.fillStyle = "#123524";
 	ctx.fillText(player1,20,80);
 	var bX1 = 160;
-	var bY1 = 55; 
+	var bY1 = 55;
 	for(i=0;i<bullets1;i++){
 		ctx.drawImage(missileVert,bX1+30*i,bY1,15,30);
 	}
 	ctx.fillText(score1,20,120);
 	ctx.fillText(player2,1100,80);
 	var bX2 = 1100;
-	var bY2 = 55; 
+	var bY2 = 55;
 	for(i=bullets2;i>0;i--){
 		ctx.drawImage(missileVert,bX2-30*i,bY2,15,30);
 	}
@@ -979,7 +985,7 @@ function animation(){
 				clearCircle(hillDamageArray[i].x,hillDamageArray[i].y,blastRadius,Math.PI-36.43*Math.PI/180,2*Math.PI-36.43*Math.PI/180);
 			}
 			else{
-				clearCircle(hillDamageArray[i].x,hillDamageArray[i].y,blastRadius,-20-40.36*Math.PI/180,-2*Math.PI/180+Math.PI-139.64*Math.PI/180);		
+				clearCircle(hillDamageArray[i].x,hillDamageArray[i].y,blastRadius,-20-40.36*Math.PI/180,-2*Math.PI/180+Math.PI-139.64*Math.PI/180);
 			}
 			ctx.drawImage(explosionImage,hillDamageArray[i].x-20,hillDamageArray[i].y-25,45,45);
 		}
@@ -995,11 +1001,11 @@ function animation(){
 		if(fire2==true){
 			if(weapon2=="Single Shot"){
 				shot2Draw();
-			}	
+			}
 			else{
 				missile2Draw();
 			}
-		}	
+		}
 
 		if(pause==true){
 			pauseGameDraw();
@@ -1016,7 +1022,7 @@ function animation(){
 			gameOverDraw();
 			return;
 		}
-	}	
+	}
 
 	requestAnimationFrame(animation);
 }
